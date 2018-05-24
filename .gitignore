@@ -1,0 +1,17 @@
+﻿激战助手/设置/激战助手.ini
+通用工具/断人+防断+技能记录/工具参数/
+*.exe
+*.log
+
+# Node build artifacts
+node_modules
+npm-debug.log
+
+# Local development
+*.env
+*.dev
+.DS_Store
+
+# Docker
+Dockerfile
+docker-compose.yml

@@ -1,0 +1,44 @@
+gwAPI:pointer v1.0.2
+
+Updated offsets for 4/20/15 update
+Added _togglerendering() in Client_interface.au3
+      RefreshGW()        in Client_interface.au3
+      DistanceToNearestEnemy()  in agents.au3
+
+    Important:
+Playernr. for outposts might still be off! Might be relevant for some Sellfunctions!
+
+
+gwAPI:pointer v1.0.1
+
+client_interface.au3 (IMPORTANT !!)
+- Changed global variable $Rendering to $mRendering to conform to standard
+
+gwAPI_basics.au3
+- Added function: RestoreDetour()
+To be called on closing script, re-writes data stored during initialisation process.
+Added functions -> CreateRestoreDict(), AddRestoreDict(), RestoreDetour()
+Changed functions -> WriteBinary(), MemoryWrite(), Initialize()
+Added global variables -> $mGWTitleOld, $mRestoreDict
+- Fixed CraftItemEx function
+
+inventory.au3
+- Fixed buykits to prevent gw crashing
+- Added function: FindCheapSalvageKit()
+- Added function: SellScrolls()
+- Corrected Linen modelID in CheckMaterial()
+
+movement.au3
+- Changes to MoveAggroing()
+Added functionality of third parameter ($SleepTime)
+
+- Replaced GetIsMoving() with GetIsMoving_() and removed GetIsMoving_()
+To check for rubberbanding use GetMoving()
+
+skills.au3
+- Added additional parameter to: GetSkillbarSkillRecharge()
+To be used like this: GetSkillbarSkillRecharge($aSkillSlot, 0, $SkillbarPtr)
+
+UpdateWorld.au3
+- Added function: GetNumberOfFoesInRangeOfAgent_()
+Thanks to JCaulton

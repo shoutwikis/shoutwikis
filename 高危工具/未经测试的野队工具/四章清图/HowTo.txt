@@ -1,0 +1,35 @@
+HM in Eotn !
+Rata Sum
+
+INTERFACE NEED TO BE IN ENGLISH
+
+Required !!!!! Hero 3 with UA in first place in bar !!!!
+
+Equipement : Staff
+
+Build :	 
+You : OggiAyiMdNd28NVO5D+4MACNBA
+OANEUqdt+5EzqCohaS9IgcXVDA
+OAhkUkG5xEyTMzOgGGmSzJ348iB
+OANEUshn8KxQgGUFYHoAWPoFdXB
+OAhjUkGZITxMVBKgSTTOCPUbDTA
+OQhkAgC7gFqDNY6hByYDzMwM4iB
+OASjUwiCJTLVVBqBKgIXOTNTXMA
+OghjowhooOk1iIxYXI8Ie4iLGA
+
+
+This is what i use, you are free to use what you want as hero and buildteam, they just need to be strong :)
+
+Follow my exemple else.
+
+Ps : There is 4 necro in my exemple team, you need to get razah, and then change his primary profession 
+(of course you can) by going isle of nameless (out of great temple of blatazar) and talk to razah
+
+
+To know : Bot will sell evertyhing on the inventory except tome / black and white dye
+the bot will got sell when the 3 first bag are full
+He store gold / ident then sell
+
+If no room on storage, he sell gold after ID them
+
+Note : If you entire team die, change team build xD, and the bot will go back to outpost
