@@ -47,6 +47,7 @@ Local $mZoomStill, $mZoomMoving
 Local $mDisableRendering
 Local $mAgentCopyCount
 Local $mAgentCopyBase
+Local $mCharslots
 Local $mLastDialogId
 
 Local $mUseStringLog
@@ -169,7 +170,7 @@ Local $CallTargetHeader = 0x28
 Local $CancelActionHeader = 0x2E
 Local $OpenChestHeader = 0x59
 Local $DropBuffHeader = 0x2F
-Local $LeavePartyHeader = 0xA8
+Local $LeaveGroupHeader = 0xA8
 Local $SwitchModeHeader = 0xA1
 Local $DonateFactionHeader = 0x3B
 Local $DialogHeader = 0x41
@@ -179,6 +180,8 @@ Local $LoadSkillbarHeader = 0x62
 Local $ChangeSecondProfessionHeader = 0x47
 Local $SendChatHeader = 0x69
 Local $SetAttributesHeader = 0x10
+Local $AcceptInviteHeader = 0xA2
+Local $SkillUseHeader = 0x4C
 Local $DestroyItemHeader = 0x6E
 #EndRegion Headers
 
@@ -373,7 +376,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	$mMapLoading = $mAgentBase - 240
 	$mCurrentTarget = $mAgentBase - 1280
 	SetValue('PacketLocation', '0x' & Hex(MemoryRead(GetScannedAddress('ScanBaseOffset', -3)), 8))
-	$mPing = MemoryRead(GetScannedAddress('ScanPing', -8))
+	$mPing = MemoryRead(GetScannedAddress('ScanPing', 7))
 	$mMapID = MemoryRead(GetScannedAddress('ScanMapID', 71))
 	$mLoggedIn = MemoryRead(GetScannedAddress('ScanLoggedIn', -3)) + 4
 	$mRegion = MemoryRead(GetScannedAddress('ScanRegion', 8))
@@ -383,14 +386,15 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	$mBuildNumber = MemoryRead(GetScannedAddress('ScanBuildNumber', 0x54))
 	$mZoomStill = GetScannedAddress("ScanZoomStill", -1)
 	$mZoomMoving = GetScannedAddress("ScanZoomMoving", 5)
-	$mCurrentStatus = MemoryRead(GetScannedAddress('ScanChangeStatusFunction', 33))
+	$mCurrentStatus = MemoryRead(GetScannedAddress('ScanChangeStatusFunction', -3))
+	$mCharslots = MemoryRead(GetScannedAddress('ScanCharslots', 22))
 	Local $lTemp
 	$lTemp = GetScannedAddress('ScanEngine', -16)
 	SetValue('MainStart', '0x' & Hex($lTemp, 8))
 	SetValue('MainReturn', '0x' & Hex($lTemp + 5, 8))
 	SetValue('RenderingMod', '0x' & Hex($lTemp + 116, 8))
 	SetValue('RenderingModReturn', '0x' & Hex($lTemp + 132 + 6, 8))
-	$lTemp = GetScannedAddress('ScanTargetLog', 1)
+	$lTemp = GetScannedAddress('ScanTargetLog', -0x1F)
 	SetValue('TargetLogStart', '0x' & Hex($lTemp, 8))
 	SetValue('TargetLogReturn', '0x' & Hex($lTemp + 5, 8))
 	$lTemp = GetScannedAddress('ScanSkillLog', 1)
@@ -442,7 +446,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	SetValue('TraderFunction', '0x' & Hex(GetScannedAddress('ScanTraderFunction', -71), 8))
 	SetValue('ClickToMoveFix', '0x' & Hex(GetScannedAddress("ScanClickToMoveFix", 30), 8))
 	SetValue('UpgradeItemFunction','0x004574D0')
-	SetValue('ChangeStatusFunction', '0x' & Hex(GetScannedAddress("ScanChangeStatusFunction", 1), 8))
+	SetValue('ChangeStatusFunction', '0x' & Hex(GetScannedAddress("ScanChangeStatusFunction", 12), 8))
 
 	SetValue('QueueSize', '0x00000010')
 	SetValue('SkillLogSize', '0x00000010')
@@ -543,13 +547,13 @@ Func Scan()
 	_('ScanPostMessage:')
 	AddPattern('6A00680080000051FF15')
 	_('ScanTargetLog:')
-	AddPattern('5356578BFA894DF4E8')
+	AddPattern('F1894DF0763A8B43')
 	_('ScanChangeTargetFunction:')
 	AddPattern('33C03BDA0F95C033')
 	_('ScanMoveFunction:')
 	AddPattern('558BEC83EC2056578BF98D4DF0')
 	_('ScanPing:')
-	AddPattern('908D41248B49186A30')
+	AddPattern('C390908BD1B9')
 	_('ScanMapID:')
 	AddPattern('B07F8D55')
 	_('ScanLoggedIn:')
@@ -596,7 +600,9 @@ Func Scan()
 	AddPattern('8D0C765F5E8B')
 
 	_('ScanChangeStatusFunction:')
-	AddPattern('568BF183FE047C146811020000')
+	AddPattern('C390909090909090909090568BF183FE04')
+	_('ScanCharslots:')
+	AddPattern('8B551041897E38897E3C897E34897E48897E4C890D')
 
 	_('ScanBuyItemFunction:')
 	AddPattern('558BEC81ECC000000053568B75085783FE108BFA8BD97614')
@@ -2166,10 +2172,15 @@ Func InvitePlayer($aPlayerName)
 	SendChat('invite ' & $aPlayerName, '/')
 EndFunc   ;==>InvitePlayer
 
+;~ Description: Accepts pending invite.
+Func AcceptInvite()
+   Return SendPacket(0x8, $AcceptInviteHeader) ;;;need update
+EndFunc   ;==>AcceptInvite
+
 ;~ Description: Leave your party.
 Func LeaveGroup($aKickHeroes = True)
 	If $aKickHeroes Then KickAllHeroes()
-	Return SendPacket(0x4, $LeavePartyHeader);
+	Return SendPacket(0x4, $LeaveGroupHeader);
 EndFunc   ;==>LeaveGroup
 
 ;~ Description: Switches to/from Hard Mode.
@@ -4099,6 +4110,10 @@ EndFunc   ;==>GetCharname
 Func GetLoggedIn()
 	Return MemoryRead($mLoggedIn)
 EndFunc   ;==>GetLoggedIn
+
+Func GetCharacterSlots()
+	Return MemoryRead($mCharslots)
+EndFunc
 
 ;~ Description: Returns language currently being used.
 Func GetDisplayLanguage()

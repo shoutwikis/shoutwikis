@@ -481,7 +481,7 @@ Func ItemsTable()
 
 	Local $itemcount = 0
 	Local $bags_names[16] = ["未名仓库1", "背包", "腰带", "袋子1", "袋子2", "武器包", "加工材料仓库", "未名仓库2", "物品仓库1", "物品仓库2", _
-	"物品仓库3", "物品仓库4", "未名仓库3", "未名仓库4"]
+	"物品仓库3", "物品仓库4", "周年纪念仓", "未名仓库4"]
 	;Local $bags_names[16] = ["Backpack", "Belt Pouch", "Bag 1", "Bag 2", "Equip Pack", "Storage I", "Storage II", "Storage III", "Storage IV", "Storage V", _
 	;"Storage VI", "Storage VII", "Storage VIII", "Anv Storage"]
 	GUISetState(@SW_DISABLE, $gGUI)
