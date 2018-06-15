@@ -151,6 +151,7 @@ Local $AddNpcHeader = 0xA5
 Local $KickNpcHeader = 0xAE
 Local $CommandHeroHeader = 0x1E
 Local $CommandAllHeader = 0x1F
+Local $DropHerosBundleHeader = 0x19
 Local $LockHeroTargetHeader = 0x18
 Local $SetHeroAggressionHeader = 0x17
 Local $ChangeHeroSkillSlotStateHeader = 0x1C
@@ -384,8 +385,8 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	$mSkillBase = MemoryRead(GetScannedAddress('ScanSkillBase', 9))
 	$mSkillTimer = MemoryRead(GetScannedAddress('ScanSkillTimer', -3))
 	$mBuildNumber = MemoryRead(GetScannedAddress('ScanBuildNumber', 0x54))
-	$mZoomStill = GetScannedAddress("ScanZoomStill", -1)
-	$mZoomMoving = GetScannedAddress("ScanZoomMoving", 5)
+	$mZoomStill = GetScannedAddress("ScanZoomStill", 0x24)
+	$mZoomMoving = GetScannedAddress("ScanZoomMoving", 0x21)
 	$mCurrentStatus = MemoryRead(GetScannedAddress('ScanChangeStatusFunction', -3))
 	$mCharslots = MemoryRead(GetScannedAddress('ScanCharslots', 22))
 	Local $lTemp
@@ -393,7 +394,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	SetValue('MainStart', '0x' & Hex($lTemp, 8))
 	SetValue('MainReturn', '0x' & Hex($lTemp + 5, 8))
 	SetValue('RenderingMod', '0x' & Hex($lTemp + 116, 8))
-	SetValue('RenderingModReturn', '0x' & Hex($lTemp + 132 + 6, 8))
+	SetValue('RenderingModReturn', '0x' & Hex($lTemp + 138, 8))
 	$lTemp = GetScannedAddress('ScanTargetLog', -0x1F)
 	SetValue('TargetLogStart', '0x' & Hex($lTemp, 8))
 	SetValue('TargetLogReturn', '0x' & Hex($lTemp + 5, 8))
@@ -415,7 +416,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	$lTemp = GetScannedAddress("ScanDialog",1)
 	SetValue('DialogStart', '0x' & Hex($lTemp, 8))
 	SetValue('DialogReturn', '0x' & Hex($lTemp + 8, 8))
-	$lTemp = GetScannedAddress('ScanStringFilter1', 29)
+	$lTemp = GetScannedAddress('ScanStringFilter1', -0x23)
 	SetValue('StringFilter1Start', '0x' & Hex($lTemp, 8))
 	SetValue('StringFilter1Return', '0x' & Hex($lTemp + 5, 8))
 	$lTemp = GetScannedAddress('ScanStringFilter2', 97)
@@ -444,7 +445,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	SetValue('BuyItemFunction', '0x' & Hex(GetScannedAddress('ScanBuyItemFunction', 1), 8))
 	SetValue('RequestQuoteFunction', '0x' & Hex(GetScannedAddress('ScanRequestQuoteFunction', -2), 8))
 	SetValue('TraderFunction', '0x' & Hex(GetScannedAddress('ScanTraderFunction', -71), 8))
-	SetValue('ClickToMoveFix', '0x' & Hex(GetScannedAddress("ScanClickToMoveFix", 30), 8))
+	SetValue('ClickToMoveFix', '0x' & Hex(GetScannedAddress("ScanClickToMoveFix", -30), 8))
 	SetValue('UpgradeItemFunction','0x004574D0')
 	SetValue('ChangeStatusFunction', '0x' & Hex(GetScannedAddress("ScanChangeStatusFunction", 12), 8))
 
@@ -585,7 +586,7 @@ Func Scan()
 	_('ScanStringLog:')
 	AddPattern('893E8B7D10895E04397E08')
 	_('ScanStringFilter1:')
-	AddPattern('5E8BE55DC204008B55088BCE52')
+	AddPattern('8B368B4F2C6A006A008B06')
 	_('ScanStringFilter2:')
 	AddPattern('D85DF85F5E5BDFE0F6C441')
 	_('ScanActionFunction:')
@@ -627,9 +628,9 @@ Func Scan()
 	_('ScanClickToMoveFix:')
 	AddPattern('568BF1578B460883F80F')
 	_('ScanZoomStill:')
-	AddPattern('3B448BCB')
+	AddPattern('89470CEBD1')
 	_('ScanZoomMoving:')
-	AddPattern('50EB116800803B448BCE')
+	AddPattern('EB358B4304')
 	_('ScanDialog:')
 	AddPattern('558BEC8B4108A8017524')
 	_('ScanBuildNumber:')
@@ -1424,6 +1425,12 @@ Func LockHeroTarget($aHeroNumber, $aAgentID = 0) ;$aAgentID=0 Cancels Lock
 	Local $lHeroID = GetHeroID($aHeroNumber)
 	Return SendPacket(0xC, $LockHeroTargetHeader, $lHeroID, $aAgentID);
 EndFunc   ;==>LockHeroTarget
+
+;~ Description: Drops an Bundle item like protective was kaolai from a heros
+Func DropHerosBundle($aHeroNumber)
+	Local $lHeroID = GetHeroID($aHeroNumber)
+	Return SendPacket(0x8, $DropHerosBundleHeader, $lHeroID)
+EndFunc   ;==>DropHerosBundle
 
 ;~ Description: Change a hero's aggression level.
 Func SetHeroAggression($aHeroNumber, $aAggression) ;0=Fight, 1=Guard, 2=Avoid
@@ -2713,6 +2720,20 @@ Func GetWisdomTitle()
 EndFunc   ;==>GetWisdomTitle
 #EndRegion Titles
 
+;~ Description: Returns codex title progress.
+Func GetCodexTitle()
+		Local $lOffset[5] = [0, 0x18, 0x2C, 0x81C, 0x75C]
+		Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
+		Return $lReturn[1]
+EndFunc   ;==>GetCodexTitle
+
+;~ Description: Returns current Tournament points.
+Func GetTournamentPoints()
+		Local $lOffset[5] = [0 ,0x18, 0x2C, 0, 0x18]
+		Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
+		Return $lReturn[1]
+EndFunc   ;==>GetTournamentPoints
+
 #Region Faction
 ;~ Description: Returns current Kurzick faction.
 Func GetKurzickFaction()
@@ -2779,6 +2800,19 @@ Func GetRarity($aItem)
 	If $lPtr == 0 Then Return
 	Return MemoryRead($lPtr, 'ushort')
 EndFunc   ;==>GetRarity
+
+;~ Description: Returns if material is Rare.
+Func GetIsRareMaterial($aItem)
+		If Not IsDllStruct($aItem) Then $aItem = GetItemByItemID($aItem)
+		If DllStructGetData($aItem, "Type") <> 11 Then Return False
+		Return Not GetIsCommonMaterial($aItem)
+EndFunc   ;==>GetIsRareMaterial
+
+;~ Description: Returns if material is Common.
+Func GetIsCommonMaterial($aItem)
+		If Not IsDllStruct($aItem) Then $aItem = GetItemByItemID($aItem)
+		Return BitAND(DllStructGetData($aItem, "Interaction"), 0x20) <> 0
+EndFunc   ;==>GetIsCommonMaterial
 
 ;~ Description: Tests if an item is identified.
 Func GetIsIDed($aItem)
@@ -3455,6 +3489,32 @@ Func GetAgentArray($aType = 0)
 	Next
 	Return $lReturnArray
 EndFunc   ;==>GetAgentArray
+
+;~ 	Description: Returns different States about Party. Check with BitAND.
+;~ 	0x8 = 队长开始任务 / 队长和队伍正在换图?
+;~ 	0x10 = 已开困难模式
+;~ 	0x20 = 队伍已失败
+;~ 	0x40 = 公会战
+;~ 	0x80 = 队伍队长
+;~ 	0x100 = 观测模式
+Func GetPartyState($aFlag)
+    Local $lOffset[4] = [0, 0x18, 0x4C, 0x14]
+    Local $lBitMask = MemoryReadPtr($mBasePointer,$lOffset)
+    Return BitAND($lBitMask[1], $aFlag) > 0
+EndFunc   ;==>GetPartyState
+
+Func GetPartyWaitingForMission()
+	Return GetPartyState(0x8)
+EndFunc
+
+Func GetIsHardMode()
+	Return GetPartyState(0x10)
+EndFunc
+
+Func GetPartyDefeated()
+	Return GetPartyState(0x20)
+EndFunc
+
 
 ;~ Description Returns the "danger level" of each party member
 ;~ Param1: an array returned by GetAgentArray(). This is totally optional, but can greatly improve script speed.
