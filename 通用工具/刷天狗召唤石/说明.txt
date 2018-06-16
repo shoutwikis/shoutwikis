@@ -1,14 +1,19 @@
-技能栏 
+====================================================================
+
+前提：
+
+需变幻之风系列的"偶然相遇"任务。
+
+因此，需事先完成变幻之风系列的头17个任务，见： 
+
+https://guildwars.huijiwiki.com/wiki/变幻之风
+
+====================================================================
+
+技能:
+
+见： https://guildwars.huijiwiki.com/wiki/偶然相遇
 
 (唯游侠版有买卖功能，但该功能不重要)
-游侠 : OgEUQpaeV8SXF9F8E7g+GMH5iBAA
-暗杀 : OwFTQza+Z6qovgnYH8usBKXMAAA
 
-英雄 :
-1 : OwUTMynCxRlcXXJb6KSApHkBAA
-2 : OwUTMyGDT6upBcjY6zohhIDoHAA
-3 : OAVEEKJGf4UzsDfCERPdC4E6EA
-4 : OgNDwcP/O1i6RARLOT200i4B
-5 : OghjgoMaIS0ChDXVfDKN6QLgXMA
-6 : OQhDAqwDK0gGkDTvpnBExFD
-7 : OAmjIykpZOXzypjra6jrxUPmJA
+====================================================================
