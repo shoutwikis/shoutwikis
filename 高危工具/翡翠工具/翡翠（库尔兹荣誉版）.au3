@@ -934,7 +934,7 @@ Func WaitAlive()
 	Local $lMe
 	Do
 		Sleep(750)
-	Until GetIsDead() == False Or GameOver()
+	Until GetIsDead(-2) == False Or GameOver()
  EndFunc   ;==>WaitAlive
  Func GameOver()
 	Local $ImperialNow = GetImperialFaction()
@@ -1640,7 +1640,7 @@ Func UpdateWorld($aRange = 1500)
 		Do
 			Sleep(50)
 			If GetIsDead($aTarget) == 1 Then Return
-			If GetIsDead() == 1 Then Return
+			If getisdead(-2) == 1 Then Return
 			If GetAgentID($aTarget) <= 0 Then Return
 			If GetMapLoading() <> $INSTANCETYPE_EXPLORABLE Then Return
 		Until GetSkillbarSkillRecharge($aSkillSlot) <> 0 Or TimerDiff($tDeadlock) > $aTimeout
@@ -1994,7 +1994,7 @@ Func ShrineSearch()
 		EndIf
 		UpdateWorld()
 		$CapThisQuarry = CheckQuarry()
-		If GetIsDead() Then Return False
+		If getisdead(-2) Then Return False
 		$IAmMoving = GetIsMoving()
 		If ($LoopAttackCounter > $RandomAttackPlayer And $mClosestEnemyDist < 1350 And $NearestShrineDist >= 1500) Or $mClosestCarrier <> 0 Then
 			$RandomAttackPlayer = Random(20, 50, 1)
@@ -2028,7 +2028,7 @@ Func ShrineSearch()
 				EndIf
 				SmartCast()
 				PingSleep(250)
-				If GetIsDead() Then Return False
+				If getisdead(-2) Then Return False
 			Until $NumberOfFoesInAttackRange <= 0
 			UpdateStatus("Random Attack Loop Completed!")
 		ElseIf $CapThisQuarry < 3 And $mClosestEnemyDist > 500 Then
@@ -2063,7 +2063,7 @@ Func ShrineSearch()
 					EndIf
 				SmartCast()
 				PingSleep(250)
-				If GetIsDead() Then Return False
+				If getisdead(-2) Then Return False
 			Until $NumberOfFoesInAttackRange <= 0
 			UpdateStatus("Shrine Loopis clear.")
 			;; I'm hurt
@@ -2164,7 +2164,7 @@ Func ShrineSearch()
 		EndIf
 		PingSleep(300)
 
-	Until GetIsDead() Or GameOver()
+	Until getisdead(-2) Or GameOver()
 EndFunc
 
 #EndRegion
