@@ -1995,7 +1995,7 @@ Func ShrineSearch()
 		UpdateWorld()
 		$CapThisQuarry = CheckQuarry()
 		If getisdead(-2) Then Return False
-		$IAmMoving = GetIsMoving()
+		$IAmMoving = GetIsMoving(-2)
 		If ($LoopAttackCounter > $RandomAttackPlayer And $mClosestEnemyDist < 1350 And $NearestShrineDist >= 1500) Or $mClosestCarrier <> 0 Then
 			$RandomAttackPlayer = Random(20, 50, 1)
 			$LoopAttackCounter = 0
