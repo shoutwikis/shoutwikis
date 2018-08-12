@@ -1626,7 +1626,7 @@ Func UpdateWorld($aRange = 1500)
 	Sleep(GetPing() + $Time)
  EndFunc   ;==>PingSleep
  Func UseSkillEx($aSkillSlot, $aTarget = -2, $aTimeout = 5200)
-	If GetIsCasting() = False Then
+	If GetIsCasting(-2) = False Then
 		If $IsHealerPrimary == True Then $aTimeout = 2500
 		Local $tDeadlock = TimerInit()
 		Local $TargetID = GetAgentID($aTarget)
@@ -1694,7 +1694,7 @@ Func UseRezSkillEx($aSkillSlot, $aTarget)
 	Do
 		Sleep(50)
 	Until GetSkillbarSkillRecharge($aSkillSlot) <> 0 Or GetIsDead(-1) == False Or TimerDiff($tDeadlock) > 7000
-	If GetIsCasting() Then CancelAction()
+	If GetIsCasting(-2) Then CancelAction()
 EndFunc   ;==>UseRezSkillEx
 
 ;~ Remove hex with updated check
@@ -1707,7 +1707,7 @@ Func RemoveHexSkillEx($aSkillSlot, $aTarget)
 	Do
 		Sleep(50)
 	Until GetSkillbarSkillRecharge($aSkillSlot) <> 0 Or GetHasHex($aTarget) == False Or GetIsDead(-1) == True Or TimerDiff($tDeadlock) > 3500
-	If GetIsCasting() Then CancelAction()
+	If GetIsCasting(-2) Then CancelAction()
 EndFunc   ;==>RemoveHexSkillEx
 
 Func SleepSkillRecharge($recharge)
