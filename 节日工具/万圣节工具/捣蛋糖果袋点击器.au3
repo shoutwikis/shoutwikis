@@ -71,12 +71,12 @@ Func EventHandler()
 				GUICtrlSetState($inputCharName, $GUI_DISABLE)
 				WinSetTitle($MainGui, "", GUICtrlRead($inputCharName))
 				If GUICtrlRead($inputCharName) = "" Then
-					If Initialize(ProcessExists("gw.exe"), True, False, False) = False Then
+					If Initialize("", True, True, True) = False Then ;ProcessExists("gw.exe")
 						MsgBox(0, "失败", "激战未开.")
 						Exit
 					EndIf
 				Else
-					If Initialize(GUICtrlRead($inputCharName), True, False, False) = False Then
+					If Initialize(GUICtrlRead($inputCharName), True, True, True) = False Then
 						MsgBox(0, "失败", "角色失寻.")
 						Exit
 					EndIf

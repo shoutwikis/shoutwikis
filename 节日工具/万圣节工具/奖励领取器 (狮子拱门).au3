@@ -117,12 +117,12 @@ Func EventHandler()
 				GUICtrlSetState($inputCharName, $GUI_DISABLE)
 				WinSetTitle($MainGui, "", GUICtrlRead($inputCharName))
 				If GUICtrlRead($inputCharName) = "" Then
-					If Initialize(ProcessExists("gw.exe"), True, False, False) = False Then	; don't need string logs or event system
+					If Initialize("", True, True, True) = False Then	; don't need string logs or event system ;ProcessExists("gw.exe")
 						MsgBox(0, "Error", "Guild Wars it not running.")
 						Exit
 					EndIf
 				Else
-					If Initialize(GUICtrlRead($inputCharName), True, False, False) = False Then ; don't need string logs or event system
+					If Initialize(GUICtrlRead($inputCharName), True, True, True) = False Then ; don't need string logs or event system
 						MsgBox(0, "Error", "Can't find a Guild Wars client with that character name.")
 						Exit
 					EndIf
