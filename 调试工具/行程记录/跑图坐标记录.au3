@@ -124,9 +124,11 @@ Func __Main__()
 				If _IsPressed("01", $hUser32) Then
 
 					If GetMapLoading() == $INSTANCETYPE_OUTPOST Then
-						$sClipString = ("MoveTo(" & NormalizeDigits($fClickX2) & ", " & NormalizeDigits($fClickY2) & ") ; 地图序号: " & $MapID)
+						;$sClipString = ("MoveTo(" & NormalizeDigits($fClickX2) & ", " & NormalizeDigits($fClickY2) & ") ; 地图序号: " & $MapID)
+						$sClipString = ("[" & Round(NormalizeDigits($fClickX2),0) & ", " & Round(NormalizeDigits($fClickY2),0) & ', "奇市", ' & $MapID & "], _")
 					ElseIf GetMapLoading() == $INSTANCETYPE_EXPLORABLE Then
-						$sClipString = ("MoveAggroing(" & NormalizeDigits($fClickX2) & ", " & NormalizeDigits($fClickY2) & ") ; 地图序号: " & $MapID)
+						;$sClipString = ("MoveAggroing(" & NormalizeDigits($fClickX2) & ", " & NormalizeDigits($fClickY2) & ") ; 地图序号: " & $MapID)
+						$sClipString = ("[" & Round(NormalizeDigits($fClickX2),0) & ", " & Round(NormalizeDigits($fClickY2),0) & ', "奇点", ' & $MapID & "], _")
 					EndIf
 
 					ClipPut($sClipString)
@@ -213,14 +215,14 @@ Func __Main__()
 						PasteToScITE2('[1, 1, "反", '&$lastMap&'], _')
 					Else
 						;PasteToScITE2("TravelTo(" & $MapID & ") ;  New Map " & $MAP_ID[$MapID])
-						PasteToScITE2('["飞往", '&$MAP_ID[$MapID]&', 0, 0], _')
+						PasteToScITE2('["飞往", '&$MapID&', "'&$MAP_ID[$MapID]&'", 0], _')
 					EndIf
 				EndIf
 
 				$NewDialog = GetLastDialogIdHex()
 				If $Dialog <> $NewDialog And $NewDialog <> 0 Then
 					$Dialog = $NewDialog
-					PasteToScITE2("Dialog(" & $Dialog & ")")
+					PasteToScITE2('["发窗口号", ' & $Dialog & ", 0, 0], _")
 					If StringInStr($Dialog, "01") Then
 						$QuestID = StringSplit($Dialog, "")
 						If $QuestID[5] == 0 And $QuestID[6] == 1 Then
@@ -252,7 +254,7 @@ Func __Main__()
 					$NearestNPC = DllStructGetData($ThisNPC, 'ID')
 					$XLocation = XLocation()
 					$YLocation = YLocation()
-					PasteToScITE2("GoToNPCNearestCoords(" & Round(XLocation($ThisNPC), 0) & ", " & Round(YLocation($ThisNPC), 0) & ")  ; " & GetAgentName($ThisNPC))
+					PasteToScITE2('["点击游戏人物", ' & Round(XLocation($ThisNPC), 0) & ", " & Round(YLocation($ThisNPC), 0) & ", 0], _  ; " & GetAgentName($ThisNPC))
 				EndIf
 			Else
 				WaitMapLoading()

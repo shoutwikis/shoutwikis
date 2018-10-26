@@ -69,6 +69,8 @@ While 1
 WEnd
 
 Func main()
+	sleep(3000)
+	;MsgBox(0, "0", GetIsKnocked(-1)&" | " & DllStructGetData(GetAgentByID(-1), 'ModelState'))
 EndFunc   ;==>main
 
 Func ChatReceived($Channel, $Sender, $Message)
