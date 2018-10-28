@@ -120,7 +120,7 @@ Func GuiButtonHandler()
 		;$nameLT = GUICtrlRead($InputLT)
 ;		$nameDT = GUICtrlRead($InputRanger)
 		If $CharName=="" Then
-			If Initialize(ProcessExists("gw.exe"), True, True, True) = False Then
+			If Initialize("", True, True, True) = False Then ;ProcessExists("gw.exe")
 				MsgBox(0, "失败", "激战未打开.")
 				Exit
 			EndIf
