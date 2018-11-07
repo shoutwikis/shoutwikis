@@ -366,7 +366,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 
 	Scan()
 
-	$mBasePointer = MemoryRead(GetScannedAddress('ScanBasePointer', -3))
+	$mBasePointer = MemoryRead(GetScannedAddress('ScanBasePointer', -3)) ;-4
 	SetValue('BasePointer', '0x' & Hex($mBasePointer, 8))
 	$mAgentBase = MemoryRead(GetScannedAddress('ScanAgentBase', 13))
 	SetValue('AgentBase', '0x' & Hex($mAgentBase, 8))
@@ -3489,6 +3489,17 @@ Func GetAgentArray($aType = 0)
 	Next
 	Return $lReturnArray
 EndFunc   ;==>GetAgentArray
+
+Func GetPartySize()
+	Local $lSize = 0, $lReturn
+	Local $lOffset[5] = [0, 0x18, 0x4C, 0x54, 0]
+	For $i=0 To 2
+		$lOffset[4] = $i * 0x10 + 0xC
+		$lReturn = MemoryReadPtr($mBasePointer, $lOffset)
+		$lSize += $lReturn[1]
+	Next
+	Return $lSize
+EndFunc
 
 ;~ 	Description: Returns different States about Party. Check with BitAND.
 ;~ 	0x8 = 队长开始任务 / 队长和队伍正在换图?

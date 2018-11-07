@@ -138,7 +138,7 @@ Func EventHandler()
 			GUICtrlSetState($inputCharName, $GUI_DISABLE)
 			WinSetTitle($MainGui, "", GUICtrlRead($inputCharName))
 			If GUICtrlRead($inputCharName) = "" Then
-			   If Initialize(ProcessExists("gw.exe"), True, True, True) = False Then
+			   If Initialize("", True, True, True) = False Then
 				  MsgBox(0, "失败", "激战未打开.")
 				  Exit
 			   EndIf
