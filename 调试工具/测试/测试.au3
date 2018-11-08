@@ -74,7 +74,7 @@ Func main()
 EndFunc   ;==>main
 
 Func test()
-	splashtexton("提示", "跑图工具：需要手动操作"&@CRLF&@CRLF&"(完成操作后，窗口会自动关闭)", 200, 150, default, default, 16)
+	;splashtexton("提示", "跑图工具：需要手动操作"&@CRLF&@CRLF&"(完成操作后，窗口会自动关闭)", 200, 150, default, default, 16)  savage shot 426
 	;MsgBox(0, "0", GetIsKnocked(-1)&" | " & DllStructGetData(GetAgentByID(-1), 'ModelState'))
 	;msgbox(0, "test", "MemberLoaded: "&MemberLoaded()[0]&" | MemberCount Value: "&MemberCount())
 EndFunc
@@ -135,6 +135,10 @@ EndFunc   ;==>GetPartySize
 #ce
 
 Func ChatReceived($Channel, $Sender, $Message)
+
+EndFunc
+
+Func SkillActivate($castID, $targetID, $skillID, $skillActivate)
 
 EndFunc
 
