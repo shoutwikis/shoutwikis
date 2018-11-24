@@ -25,12 +25,13 @@ Global $failedRuns = 0
 Global $bRun = False
 
 Opt("GUIOnEventMode", 1)
-
+Global $RENDERING = True
 Global $g_fMain = GUICreate("测试", 151, 170, 192, 124)
 Global $g_gSetup = GUICtrlCreateGroup("设置", 8, 6, 135, 69)
 Global $g_cName = GUICtrlCreateCombo("", 16, 25, 118, 25, 3)
 SetClientNames($g_cName)
-;Global $g_cbRendering = GUICtrlCreateCheckbox("成像", 16, 52, 97, 17)
+Global $g_cbRendering = GUICtrlCreateCheckbox("成像", 16, 52, 97, 17)
+GUICtrlSetState(-1, $GUI_CHECKED)
 Global $g_gRuns = GUICtrlCreateGroup("统计", 8, 80, 135, 53)
 Global $g_lblTotal = GUICtrlCreateLabel("总数:", 20, 94, 31, 17)
 Global $g_lblFail = GUICtrlCreateLabel("失败:", 20, 111, 35, 17)
@@ -38,9 +39,20 @@ Global $g_numTotal = GUICtrlCreateLabel("-", 69, 91, 67, 17, 1)
 Global $g_numFail = GUICtrlCreateLabel("-", 69, 109, 67, 17, 1)
 Global $g_bRun = GUICtrlCreateButton("开始", 10, 136, 131, 25)
 
-;GUICtrlSetOnEvent($g_cbRendering, 'ToggleRendering')
+GUICtrlSetOnEvent($g_cbRendering, 'ToggleRendering')
 GUICtrlSetOnEvent($g_bRun, 'ToggleBot')
 GUISetOnEvent(-3, '_exit')
+
+
+Func TOGGLERENDERING()
+	If $RENDERING Then
+		DisableRendering()
+		$RENDERING = False
+	Else
+		EnableRendering()
+		$RENDERING = True
+	EndIf
+EndFunc   ;==>TOGGLERENDERING
 
 GUISetState(1)
 
