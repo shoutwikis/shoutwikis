@@ -1391,11 +1391,10 @@ Func CanPickUp($aItem)
 
 ;#cs 若蓝/紫中只要达标的匕首和盾
 	; use getattribute from helper for list
-	elseif ($LMODELID <> 146) and (($Requirement = 5) or ($Requirement = 6)) and (GetItemAttribute($aItem) = 29) and (GetItemMaxDmg($aItem) > 12)  Then
-
+	elseif ($LMODELID <> 146) and (GetItemAttribute($aItem) = 29) and _
+			((($Requirement = 5 or $Requirement = 6) and GetItemMaxDmg($aItem) > 12) or _
+			($Requirement = 4 and GetItemMaxDmg($aItem) > 10)) Then
 		Return True
-
-
 	elseIf ($LMODELID <> 146) and ((($Requirement = 5) and (GetIsShield($aItem) > 12)) or _
 							   (($Requirement = 6) and (GetIsShield($aItem) > 13)) or _
 							   (($Requirement = 7) and (GetIsShield($aItem) > 14))) Then
@@ -1499,7 +1498,9 @@ Func CANSELL($aItem)
 	EndIf
 
 	; use getattribute from helper for list
-	if ($LMODELID <> 146) and (($Requirement = 5) or ($Requirement = 6)) and (GetItemAttribute($aItem) = 29) and (GetItemMaxDmg($aItem) > 12) and (GetItemInscr($aItem) <> 0) Then
+	if ($LMODELID <> 146) and (GetItemAttribute($aItem) = 29) and (GetItemInscr($aItem) <> 0) and _
+			((($Requirement = 5 or $Requirement = 6) and GetItemMaxDmg($aItem) > 12) or _
+			($Requirement = 4 and GetItemMaxDmg($aItem) > 10)) Then
 		Return False
 	EndIf
 

@@ -1,3 +1,17 @@
+#include <Constants.au3>
+#include <GUIConstantsEx.au3>
+#include <WindowsConstants.au3>
+#Include <GuiButton.au3>
+#include <GuiEdit.au3>
+#include <StaticConstants.au3>
+#include <GuiConstants.AU3>
+#include <ButtonConstants.au3>
+#include <String.au3>
+#include <GuiComboBox.au3>
+#include <EditConstants.au3>
+#include <ComboConstants.au3>
+#include <Misc.au3>
+#include <Array.au3>
 #include "../../激战接口.au3"
 
 ; Constant Globals/Data
@@ -30,14 +44,20 @@ Global $g_fMain = GUICreate("测试", 151, 170, 192, 124)
 Global $g_gSetup = GUICtrlCreateGroup("设置", 8, 6, 135, 69)
 Global $g_cName = GUICtrlCreateCombo("", 16, 25, 118, 25, 3)
 SetClientNames($g_cName)
-Global $g_cbRendering = GUICtrlCreateCheckbox("成像", 16, 52, 97, 17)
-GUICtrlSetState(-1, $GUI_CHECKED)
+Global $g_cbRendering ;= GUICtrlCreateCheckbox("成像", 16, 52, 97, 17)
+;GUICtrlSetState(-1, $GUI_CHECKED)
 Global $g_gRuns = GUICtrlCreateGroup("统计", 8, 80, 135, 53)
 Global $g_lblTotal = GUICtrlCreateLabel("总数:", 20, 94, 31, 17)
 Global $g_lblFail = GUICtrlCreateLabel("失败:", 20, 111, 35, 17)
 Global $g_numTotal = GUICtrlCreateLabel("-", 69, 91, 67, 17, 1)
 Global $g_numFail = GUICtrlCreateLabel("-", 69, 109, 67, 17, 1)
 Global $g_bRun = GUICtrlCreateButton("开始", 10, 136, 131, 25)
+
+
+Global $GLOGBOX = GUICtrlCreateEdit("", 8, 80, 135, 53, BitOR($ES_AUTOVSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_MULTILINE, $ES_READONLY));$ES_AUTOHSCROLL
+_GUICtrlEdit_AppendText($GLOGBOX,  @CRLF&@CRLF)
+GUICtrlSetColor($GLOGBOX, 65280)
+GUICtrlSetBkColor($GLOGBOX, 0)
 
 GUICtrlSetOnEvent($g_cbRendering, 'ToggleRendering')
 GUICtrlSetOnEvent($g_bRun, 'ToggleBot')
@@ -48,9 +68,11 @@ Func TOGGLERENDERING()
 	If $RENDERING Then
 		DisableRendering()
 		$RENDERING = False
+		DebugMsg($RENDERING)
 	Else
 		EnableRendering()
 		$RENDERING = True
+		DebugMsg($RENDERING)
 	EndIf
 EndFunc   ;==>TOGGLERENDERING
 
@@ -68,7 +90,7 @@ SetEvent('SkillActivate', 'SkillCancel', 'SkillComplete', 'ChatReceived', 'LoadF
 HotKeySet("{ESC}", "test")
 
 While 1
-
+#cs
 	; 等待装载地图
 	If (GetMapLoading() == 2) Then
 		Do
@@ -77,11 +99,18 @@ While 1
 		;RndSleep(GetPing()+2000)
 		ContinueLoop
 	EndIf
-
+#ce
 	main()
 WEnd
 
 Func main()
+	#cs
+	DebugMsg(GetInstanceUpTime())
+	DebugMsg(GetMapID())
+	DebugMsg(GetMapLoading())
+	DebugMsg(GetIsDead(-2))
+	DebugMsg(GetMapIsLoaded())
+	#ce
 	;sleep(3000)
 EndFunc   ;==>main
 
@@ -91,7 +120,14 @@ Func test()
 	;msgbox(0, "test", "MemberLoaded: "&MemberLoaded()[0]&" | MemberCount Value: "&MemberCount())
 EndFunc
 
-
+Func DebugMsg($aText, $aTargetWindow = $GLOGBOX)
+	;If $BOTRUNNING Then FileWriteLine($FLOG, @CRLF & "[" & @HOUR & ":" & @MIN & ":" & @SEC & "] " & $aText)
+	Local $TEXTLEN = StringLen($aText)
+	Local $CONSOLELEN = _GUICtrlEdit_GetTextLen($aTargetWindow)
+	If $TEXTLEN + $CONSOLELEN > 30000 Then GUICtrlSetData($aTargetWindow, StringRight(_GUICtrlEdit_GetText($aTargetWindow), 30000 - $TEXTLEN - 1000))
+	_GUICtrlEdit_AppendText($aTargetWindow,  $aText & @CRLF) ;@CRLF & "[" & @HOUR & ":" & @MIN & ":" & @SEC & "] " &
+	_GUICtrlEdit_Scroll($aTargetWindow, 1)
+EndFunc   ;==>DebugMsg
 ;~ Description: Returns array of party members
 ;~ Param: an array returned by GetAgentArray. This is totally optional, but can greatly improve script speed.
 Func MemberLoaded()
