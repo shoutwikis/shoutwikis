@@ -520,7 +520,7 @@ WEnd
 Func Main()
 
 	;If GetMapLoading() = 2 Then Disconnected()
-	$prof = GetProfessionName()
+	$prof = GetProfessionNameEx()
 
 	Out("正文开始")
 	$lBlockedTimer = TimerInit()
@@ -942,8 +942,8 @@ Func ToggleRendering()
 		ClearMemory()
 	EndIf
 EndFunc   ;==>ToggleRendering
-#cs
-Func GetProfessionName($aProf = GetAgentPrimaryProfession())
+
+Func GetProfessionNameEx($aProf = GetAgentPrimaryProfession())
 	Switch $aProf
 		Case 0 ; $PROFESSION_None
 			Return "x"
@@ -969,7 +969,7 @@ Func GetProfessionName($aProf = GetAgentPrimaryProfession())
 			Return "D"
 	EndSwitch
 EndFunc   ;==>GetProfessionName
-#ce
+
 Func GetAgentPrimaryProfession($aAgent = GetAgentPtr(-2))
 	If IsPtr($aAgent) <> 0 Then
 		Return MemoryRead($aAgent + 266, 'byte')
