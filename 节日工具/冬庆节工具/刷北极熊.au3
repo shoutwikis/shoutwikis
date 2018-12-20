@@ -472,13 +472,13 @@ Func GuiButtonHandler()
 		Out("正在启动...")
 		Local $CharName = GUICtrlRead($Input)
 		If $CharName == "" Then
-			If Initialize(ProcessExists("gw.exe"), True, True, False) = False Then
+			If Initialize("", True, True, True) = False Then
 				MsgBox(0, "故障", "需事先运行激战.")
 				Exit
 			EndIf
 
 		Else
-			If Initialize($CharName, True, True, False) = False Then
+			If Initialize("", True, True, True) = False Then
 				MsgBox(0, "故障", "以下角色失寻： '" & $CharName & "'")
 				Exit
 			EndIf
