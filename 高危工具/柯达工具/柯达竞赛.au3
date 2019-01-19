@@ -80,12 +80,12 @@ Func GuiButtonHandler()
 		Disp("启动...")
 		Local $CharName = GUICtrlRead($Input)
 		If $CharName=="" Then
-			If Initialize(ProcessExists("gw.exe"), True, True, False) = False Then
+			If Initialize("", True, True, True) = False Then ;Initialize(ProcessExists("gw.exe"), True, True, False) = False Then
 				MsgBox(0, "故障", "未开激战.")
 				Exit
 			EndIf
 		Else
-			If Initialize($CharName, True, True, False) = False Then
+			If Initialize("", True, True, True) = False Then ;Initialize($CharName, True, True, False) = False Then
 				MsgBox(0, "故障", "角色失寻： '"&$CharName&"'")
 				Exit
 			EndIf
