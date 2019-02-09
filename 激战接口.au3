@@ -2944,19 +2944,20 @@ Func GetItemByModelID($aModelID)
 	Next
 EndFunc   ;==>GetItemByModelID
 
-;~ Description: Returns amount of gold in storage.
-Func GetGoldStorage()
-	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x80]
-	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
-	Return $lReturn[1]
-EndFunc   ;==>GetGoldStorage
-
 ;~ Description: Returns amount of gold being carried.
 Func GetGoldCharacter()
-	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x7C]
+	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x90]
 	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
 	Return $lReturn[1]
 EndFunc   ;==>GetGoldCharacter
+
+
+;~ Description: Returns amount of gold in storage.
+Func GetGoldStorage()
+	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x94]
+	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
+	Return $lReturn[1]
+EndFunc   ;==>GetGoldStorage
 
 ;~ Description: Returns item ID of salvage kit in inventory.
 Func FindSalvageKit()
@@ -6039,6 +6040,16 @@ Func CountSlotsChest()
 	$bag = GetBag(15)
 	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
 	$bag = GetBag(16)
+	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(17)
+	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(18)
+	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(19)
+	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(20)
+	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
+	$bag = GetBag(21)
 	$temp += DllStructGetData($bag, 'Slots') - DllStructGetData($bag, 'ItemsCount')
 	Return $temp
 EndFunc ; Counts open slots in the storage chest

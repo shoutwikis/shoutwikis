@@ -480,9 +480,9 @@ Func ItemsTable()
 	;msgbox(0,"getdistrict",getdistrict())
 
 	Local $itemcount = 0
-	Local $bags_names[23] = ["未名仓库1", "背包", "腰带", "袋子1", "袋子2", "武器包", "加工材料仓库", "尚未接受的物品", "物品仓库1", "物品仓库2", _
+	Local $bags_names[24] = ["未名仓库1", "背包", "腰带", "袋子1", "袋子2", "武器包", "加工材料仓库", "尚未接受的物品", "物品仓库1", "物品仓库2", _
 	"物品仓库3", "物品仓库4", "物品仓库5", "物品仓库6", "物品仓库7", "物品仓库8", "物品仓库9", "物品仓库10", "物品仓库11", "物品仓库12", _
-	"物品仓库13", "物品仓库14","已装备于身的物品"]
+	"物品仓库13", "物品仓库14","已装备于身的物品", "极限"]
 	;Local $bags_names[16] = ["Backpack", "Belt Pouch", "Bag 1", "Bag 2", "Equip Pack", "Storage I", "Storage II", "Storage III", "Storage IV", "Storage V", _
 	;"Storage VI", "Storage VII", "Storage VIII", "Anv Storage"]
 	GUISetState(@SW_DISABLE, $gGUI)
@@ -495,7 +495,7 @@ Func ItemsTable()
 	GUISetState()
 	GUISetOnEvent($GUI_EVENT_CLOSE, "BoxEventHandler", $gItemInfoGUI)
 
-	For $bag = 1 To 22
+	For $bag = 1 To 23
 		$bag_slots = DllStructGetData(GetBag($bag), 'Slots')
 		For $slot = 1 to $bag_slots
 			$bag_name = $bags_names[$bag]
