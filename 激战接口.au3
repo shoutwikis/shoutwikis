@@ -985,7 +985,7 @@ EndFunc   ;==>BuySuperiorIDKit
 
 ;~ Description: Request a quote to buy an item from a trader. Returns true if successful.
 Func TraderRequest($aModelID, $aExtraID = -1)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte WeiMing21;short ExtraId;short Value;byte WeiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte WeiMing40[10];byte IsSalvageable;byte WeiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[4] = [0, 0x18, 0x40, 0xC0]
 	Local $lItemArraySize = MemoryReadPtr($mBasePointer, $lOffset)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0]
@@ -2892,7 +2892,7 @@ Func GetItemBySlot($aBag, $aSlot)
 
 	Local $lItemPtr = DllStructGetData($lBag, 'ItemArray')
 	Local $lBuffer = DllStructCreate('ptr')
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte WeiMing21;short ExtraId;short Value;byte WeiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte WeiMing40[10];byte IsSalvageable;byte WeiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', DllStructGetData($lBag, 'ItemArray') + 4 * ($aSlot - 1), 'ptr', DllStructGetPtr($lBuffer), 'int', DllStructGetSize($lBuffer), 'int', '')
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', DllStructGetData($lBuffer, 1), 'ptr', DllStructGetPtr($lItemStruct), 'int', DllStructGetSize($lItemStruct), 'int', '')
 	Return $lItemStruct
@@ -2900,7 +2900,7 @@ EndFunc   ;==>GetItemBySlot
 
 ;~ Description: Returns item struct.
 Func GetItemByItemID($aItemID)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte WeiMing21;short ExtraId;short Value;byte WeiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte WeiMing40[10];byte IsSalvageable;byte WeiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0x4 * $aItemID]
 	Local $lItemPtr = MemoryReadPtr($mBasePointer, $lOffset)
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemPtr[1], 'ptr', DllStructGetPtr($lItemStruct), 'int', DllStructGetSize($lItemStruct), 'int', '')
@@ -2909,7 +2909,7 @@ EndFunc   ;==>GetItemByItemID
 
 ;~ Description: Returns item by agent ID.
 Func GetItemByAgentID($aAgentID)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte WeiMing21;short ExtraId;short Value;byte WeiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte WeiMing40[10];byte IsSalvageable;byte WeiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[4] = [0, 0x18, 0x40, 0xC0]
 	Local $lItemArraySize = MemoryReadPtr($mBasePointer, $lOffset)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0]
@@ -2928,7 +2928,7 @@ EndFunc   ;==>GetItemByAgentID
 
 ;~ Description: Returns item by model ID.
 Func GetItemByModelID($aModelID)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte WeiMing21;short ExtraId;short Value;byte WeiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte WeiMing40[10];byte IsSalvageable;byte WeiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[4] = [0, 0x18, 0x40, 0xC0]
 	Local $lItemArraySize = MemoryReadPtr($mBasePointer, $lOffset)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0]
@@ -2944,19 +2944,43 @@ Func GetItemByModelID($aModelID)
 	Next
 EndFunc   ;==>GetItemByModelID
 
+#include <WinAPIDiag.au3>
+
+;~ Description: Returns Inventory struct.
+Func GetInventory()
+	Local $lInventoryStruct = DllStructCreate('ptr UnusedBag;ptr Backpack;ptr BeltPouch;ptr Bag1;ptr Bag2;ptr EquipmentPack;ptr MaterialStorage;ptr UnclaimedItems;ptr Storage1;ptr Storage2;ptr Storage3;ptr Storage4;ptr Storage5;ptr Storage6;ptr Storage7;ptr Storage8;ptr Storage9;ptr Storage10;ptr Storage11;ptr Storage12;ptr Storage13;ptr Storage14;ptr EquippedItems;ptr Bundle;long WeiMing60;ptr WeaponSet0;ptr OffhandSet0;ptr WeaponSet1;ptr OffhandSet1;ptr WeaponSet2;ptr OffhandSet2;ptr WeaponSet3;ptr OffhandSet3;long ActiveWeaponSet;long WeiMing88[2];long GoldCharacter;long GoldStorage')
+	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x0]
+	Local $lInventoryPtr = MemoryReadPtr($mBasePointer, $lOffset) ;非,$lInventoryPtr[1],没有数值
+	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lInventoryPtr[0], 'ptr', DllStructGetPtr($lInventoryStruct), 'int', DllStructGetSize($lInventoryStruct), 'int', '')
+	Return $lInventoryStruct
+	;以下亦可:
+	#cs
+	Local $lInventoryStruct = DllStructCreate('ptr UnusedBag;ptr Backpack;ptr BeltPouch;ptr Bag1;ptr Bag2;ptr EquipmentPack;ptr MaterialStorage;ptr UnclaimedItems;ptr Storage1;ptr Storage2;ptr Storage3;ptr Storage4;ptr Storage5;ptr Storage6;ptr Storage7;ptr Storage8;ptr Storage9;ptr Storage10;ptr Storage11;ptr Storage12;ptr Storage13;ptr Storage14;ptr EquippedItems;ptr Bundle;long WeiMing60;ptr WeaponSet0;ptr OffhandSet0;ptr WeaponSet1;ptr OffhandSet1;ptr WeaponSet2;ptr OffhandSet2;ptr WeaponSet3;ptr OffhandSet3;long ActiveWeaponSet;long WeiMing88[2];long GoldCharacter;long GoldStorage')
+	Local $lOffset[4] = [0, 0x18, 0x40, 0xF8]
+	Local $lInventoryPtr = MemoryReadPtr($mBasePointer, $lOffset) ;非,$lInventoryPtr[0],错误数值
+	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lInventoryPtr[1], 'ptr', DllStructGetPtr($lInventoryStruct), 'int', DllStructGetSize($lInventoryStruct), 'int', '')
+	Return $lInventoryStruct
+	#ce
+EndFunc   ;==>GetInventory
+
 ;~ Description: Returns amount of gold being carried.
 Func GetGoldCharacter()
+	return DllStructGetData(GetInventory(), 'GoldCharacter')
+	#cs
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x90]
 	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
 	Return $lReturn[1]
+	#ce
 EndFunc   ;==>GetGoldCharacter
-
 
 ;~ Description: Returns amount of gold in storage.
 Func GetGoldStorage()
+	return DllStructGetData(GetInventory(), 'GoldStorage')
+	#cs
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x94]
 	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
 	Return $lReturn[1]
+	#ce
 EndFunc   ;==>GetGoldStorage
 
 ;~ Description: Returns item ID of salvage kit in inventory.
