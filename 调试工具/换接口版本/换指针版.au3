@@ -257,7 +257,7 @@ Func Convert($lData)
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")value('|" & '"' & ')\)'
 	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+36,'short')")
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")interaction('|" & '"' & ')\)'
-	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+40,'byte[4]')")
+	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+42,'short')")
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")modelId('|" & '"' & ')\)'
 	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+44,'long')")
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")modString('|" & '"' & ')\)'
@@ -265,13 +265,13 @@ Func Convert($lData)
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")NameString('|" & '"' & ')\)'
 	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+56,'ptr')")
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")quantity('|" & '"' & ')\)'
-	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+75,'byte')")
+	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+76,'short')")
 	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")equipped('|" & '"' & ')\)'
-	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+76,'byte')")
-	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")profession('|" & '"' & ')\)'
-	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+77,'byte')")
-	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")slot('|" & '"' & ')\)'
 	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+78,'byte')")
+	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")profession('|" & '"' & ')\)'
+	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+79,'byte')")
+	$regexTemplate = "(?i)DllStructGetData\((\$.*?item.*?),.*?('|"& '"' & ")slot('|" & '"' & ')\)'
+	$lData=StringRegExpReplace($lData, $regexTemplate,"MemoryRead($1+80,'byte')")
 
 
 	;quest

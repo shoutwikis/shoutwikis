@@ -178,9 +178,9 @@ Func Out($aString)
  #Region ToT Storage
  Func StoreTricks()
 	TrickOrTreat(1, 20)
-	TrickOrTreat(2, 5)
-	TrickOrTreat(3, 10)
-	TrickOrTreat(4, 10)
+	TrickOrTreat(2, 10)
+	TrickOrTreat(3, 15)
+	TrickOrTreat(4, 15)
  EndFunc
 
 Func TrickOrTreat($BAGINDEX, $NUMOFSLOTS)
