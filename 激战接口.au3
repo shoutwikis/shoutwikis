@@ -985,7 +985,7 @@ EndFunc   ;==>BuySuperiorIDKit
 
 ;~ Description: Request a quote to buy an item from a trader. Returns true if successful.
 Func TraderRequest($aModelID, $aExtraID = -1)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte unknown21;short ExtraId;short Value;byte unknown26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte Unknown40[10];byte IsSalvageable;byte Unknown4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[4] = [0, 0x18, 0x40, 0xC0]
 	Local $lItemArraySize = MemoryReadPtr($mBasePointer, $lOffset)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0]
@@ -2892,7 +2892,7 @@ Func GetItemBySlot($aBag, $aSlot)
 
 	Local $lItemPtr = DllStructGetData($lBag, 'ItemArray')
 	Local $lBuffer = DllStructCreate('ptr')
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte unknown21;short ExtraId;short Value;byte unknown26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte Unknown40[10];byte IsSalvageable;byte Unknown4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', DllStructGetData($lBag, 'ItemArray') + 4 * ($aSlot - 1), 'ptr', DllStructGetPtr($lBuffer), 'int', DllStructGetSize($lBuffer), 'int', '')
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', DllStructGetData($lBuffer, 1), 'ptr', DllStructGetPtr($lItemStruct), 'int', DllStructGetSize($lItemStruct), 'int', '')
 	Return $lItemStruct
@@ -2900,7 +2900,7 @@ EndFunc   ;==>GetItemBySlot
 
 ;~ Description: Returns item struct.
 Func GetItemByItemID($aItemID)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte unknown21;short ExtraId;short Value;byte unknown26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte Unknown40[10];byte IsSalvageable;byte Unknown4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0x4 * $aItemID]
 	Local $lItemPtr = MemoryReadPtr($mBasePointer, $lOffset)
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lItemPtr[1], 'ptr', DllStructGetPtr($lItemStruct), 'int', DllStructGetSize($lItemStruct), 'int', '')
@@ -2909,7 +2909,7 @@ EndFunc   ;==>GetItemByItemID
 
 ;~ Description: Returns item by agent ID.
 Func GetItemByAgentID($aAgentID)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte unknown21;short ExtraId;short Value;byte unknown26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte Unknown40[10];byte IsSalvageable;byte Unknown4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[4] = [0, 0x18, 0x40, 0xC0]
 	Local $lItemArraySize = MemoryReadPtr($mBasePointer, $lOffset)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0]
@@ -2928,7 +2928,7 @@ EndFunc   ;==>GetItemByAgentID
 
 ;~ Description: Returns item by model ID.
 Func GetItemByModelID($aModelID)
-	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte unknown21;short ExtraId;short Value;byte unknown26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte Unknown40[10];byte IsSalvageable;byte Unknown4B;short Quantity;byte Equiped;byte Profession;byte Slot')
+	Local $lItemStruct = DllStructCreate('long Id;long AgentId;ptr BagEquiped;ptr Bag;ptr ModStruct;long ModStructSize;ptr Customized;long ModelFileID;byte Type;byte weiMing21;short ExtraId;short Value;byte weiMing26[4];short Interaction;long ModelId;ptr ModString;ptr NameStringAlt;ptr NameString;ptr SingleItemName;byte weiMing40[10];byte IsSalvageable;byte weiMing4B;short Quantity;byte Equiped;byte Profession;byte Slot')
 	Local $lOffset[4] = [0, 0x18, 0x40, 0xC0]
 	Local $lItemArraySize = MemoryReadPtr($mBasePointer, $lOffset)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xB8, 0]
