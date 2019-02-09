@@ -2965,22 +2965,18 @@ EndFunc   ;==>GetInventory
 
 ;~ Description: Returns amount of gold being carried.
 Func GetGoldCharacter()
-	return DllStructGetData(GetInventory(), 'GoldCharacter')
-	#cs
+	;return DllStructGetData(GetInventory(), 'GoldCharacter')
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x90]
 	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
 	Return $lReturn[1]
-	#ce
 EndFunc   ;==>GetGoldCharacter
 
 ;~ Description: Returns amount of gold in storage.
 Func GetGoldStorage()
-	return DllStructGetData(GetInventory(), 'GoldStorage')
-	#cs
+	;return DllStructGetData(GetInventory(), 'GoldStorage')
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x94]
 	Local $lReturn = MemoryReadPtr($mBasePointer, $lOffset)
 	Return $lReturn[1]
-	#ce
 EndFunc   ;==>GetGoldStorage
 
 ;~ Description: Returns item ID of salvage kit in inventory.
@@ -6411,13 +6407,13 @@ Func retainThis($item)
 #cs
 	;dagger: vampiric 3, zealous and enchantment mod
 	if (GetItemAttribute($item)==29) and (DllStructGetData($item, 'Type')==32) Then
-		#cs
+		;#cs
 		if (StringInStr($item_mod1,'00032825-0100E820') > 0) or (StringInStr($item_mod2,'00032825-0100E820') > 0) or _
 		   (StringInStr($item_mod1,'01001825-0100C820') > 0) or (StringInStr($item_mod2,'01001825-0100C820') > 0) or _
 		   (StringInStr($item_mod1, '1400B822') > 0) or (StringInStr($item_mod2, '1400B822') > 0) Then
 			return true
 		EndIf
-		#ce
+		;#ce
 		if (StringInStr($item_mod1, '1400B822') > 0) or (StringInStr($item_mod2, '1400B822') > 0) Then
 			return true
 		EndIf
