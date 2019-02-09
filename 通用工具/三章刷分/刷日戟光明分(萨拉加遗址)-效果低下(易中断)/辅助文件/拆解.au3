@@ -164,7 +164,7 @@ Func SalvageUses($aBags)
 	Local $lBag
 	Local $lItem
 	Local $lCount = 0
-	For $i = 1 To 16 ;;;;;;16 was $aBags      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mistake
+	For $i = 1 To 21 ;;;;;;16 was $aBags      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mistake
 		$lBag = GetBag($i)
 		For $j = 1 To DllStructGetData($lBag, 'Slots')
 			$lItem = GetItemBySlot($lBag, $j)
@@ -209,7 +209,7 @@ Func FindSalvageKit()
 	Local $lItem
 	Local $lKit = 0
 	Local $lUses = 101
-	For $i = 1 To 16
+	For $i = 1 To 21
 		For $j = 1 To DllStructGetData(GetBag($i), 'Slots')
 			$lItem = GetItemBySlot($i, $j)
 			Switch DllStructGetData($lItem, 'ModelID')

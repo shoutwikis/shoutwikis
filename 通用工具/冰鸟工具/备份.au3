@@ -290,7 +290,7 @@ Global $BotRunning = False
 Global $BotInitialized = False
 Global $ChatStuckTimer = TimerInit()
 
-Global $BAG_SLOTS[18] = [0, 20, 5, 10, 10, 20, 41, 12, 20, 20, 20, 20, 20, 20, 20, 20, 20, 9]
+Global $BAG_SLOTS[23] = [0, 20, 10, 15, 15, 20, 41, 12, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 9]
 
 ;~ Any pcons you want to use during a run
 Global $pconsCupcake_slot[2]

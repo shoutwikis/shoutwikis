@@ -11,7 +11,7 @@ Opt("GUIOnEventMode", True)
 Opt("GUICloseOnESC", False)
 
 Global Const $RangerSkillBarTemplate = "OgcTc5+8Z6ASn5uU4ABimsBKuEA"
-Global $bag_slots[5] = [0, 20, 5, 10, 10]
+Global $BAG_SLOTS[23] = [0, 20, 10, 15, 15, 20, 41, 12, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 9]
 Global $spawned = False
 Global $ensuresafety = false
 Global Const $warrsupply = 35121

@@ -7,7 +7,7 @@
 #Region declarations
 Opt("GUIOnEventMode", True)
 Opt("GUICloseOnESC", False)
-Global $bag_slots[5] = [0, 20, 5, 10, 10]
+Global $BAG_SLOTS[23] = [0, 20, 10, 15, 15, 20, 41, 12, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 9]
 Global $spawned = False
 global  $ensuresafety = False  ; will zone  until it finds empty dis , and wont kneel if people in town
 global const $warrsupply = 35121

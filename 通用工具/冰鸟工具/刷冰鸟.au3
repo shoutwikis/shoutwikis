@@ -292,7 +292,7 @@ Global $BotRunning = False
 Global $BotInitialized = False
 Global $ChatStuckTimer = TimerInit()
 
-Global $BAG_SLOTS[18] = [0, 20, 5, 10, 10, 20, 41, 12, 20, 20, 20, 20, 20, 20, 20, 20, 20, 9]
+Global $BAG_SLOTS[23] = [0, 20, 10, 15, 15, 20, 41, 12, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 9]
 
 ;~ Any pcons you want to use during a run
 Global $pconsCupcake_slot[2]
@@ -538,7 +538,7 @@ If GetMapLoading() == $INSTANCETYPE_OUTPOST Then LoadSkillTemplate($SkillBarTemp
 	Local $bag, $bag_slots
 	Local $slot
 	Local $item
-	For $bag = 1 To 16
+	For $bag = 1 To 21
 		$bag_slots = DllStructGetData(GetBag($bag), 'Slots')
 		For $slot = 1 To $bag_slots
 			$item = GetItemBySlot($bag, $slot)
@@ -616,7 +616,7 @@ While True
 
 	;-----------------------------------------------------------------------------------------------------------
 			$deltaEgg = 0
-			For $bag = 1 To 16
+			For $bag = 1 To 21
 				$bag_slots = DllStructGetData(GetBag($bag), 'Slots')
 				For $slot = 1 To $bag_slots
 					$item = GetItemBySlot($bag, $slot)
@@ -648,7 +648,7 @@ While True
 
 	;-----------------------------------------------------------------------------------------------------------
 			$deltaEgg = 0
-			For $bag = 1 To 16
+			For $bag = 1 To 21
 				$bag_slots = DllStructGetData(GetBag($bag), 'Slots')
 				For $slot = 1 To $bag_slots
 					$item = GetItemBySlot($bag, $slot)

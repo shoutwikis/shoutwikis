@@ -350,7 +350,7 @@ Func SalvageUsesEx($aBags)
 	Local $lBag
 	Local $lItem
 	Local $lCount = 0
-	For $i = 1 To 16
+	For $i = 1 To 21
 		$lBag = GetBag($i)
 
 		For $j = 1 To DllStructGetData($lBag, 'Slots')

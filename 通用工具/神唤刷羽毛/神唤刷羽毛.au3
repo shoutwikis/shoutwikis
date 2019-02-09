@@ -516,7 +516,7 @@ Func FindCheapSalvageKit()
    Local $Item
    Local $Kit = 0
    Local $Uses = 101
-   For $Bag = 1 To 16
+   For $Bag = 1 To 21
 	  For $Slot = 1 To DllStructGetData(GetBag($Bag), 'Slots')
 		 $Item = GetItemBySlot($Bag, $Slot)
 		 Switch DllStructGetData($Item, 'ModelID')
