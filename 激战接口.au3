@@ -2873,7 +2873,7 @@ EndFunc   ;==>GetCanPickUp
 ;~ Description: Returns struct of an inventory bag.
 Func GetBag($aBag)
 	Local $lOffset[5] = [0, 0x18, 0x40, 0xF8, 0x4 * $aBag]
-	Local $lBagStruct = DllStructCreate('byte unknown1[4];long index;long id;ptr containerItem;long ItemsCount;ptr bagArray;ptr itemArray;long fakeSlots;long slots')
+	Local $lBagStruct = DllStructCreate('long BagType;long Index;long Id;ptr ContainerItem;long ItemsCount;ptr BagArray;ptr ItemArray;long FakeSlots;long Slots')
 	Local $lBagPtr = MemoryReadPtr($mBasePointer, $lOffset)
 	If $lBagPtr[1] = 0 Then Return
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lBagPtr[1], 'ptr', DllStructGetPtr($lBagStruct), 'int', DllStructGetSize($lBagStruct), 'int', '')
