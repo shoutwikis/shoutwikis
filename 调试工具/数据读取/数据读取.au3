@@ -488,7 +488,7 @@ Func ItemsTable()
 	GUISetState(@SW_DISABLE, $gGUI)
 	Opt("GuiOnEventMode", 1)
 	$gItemInfoGUI = GUICreate("物品数据", 600, 250)
-	$gItemInfo = GUICtrlCreateListView("包:名|包:号|包内位置|序号|型号|颜色码|数量|染色|属性需求|属性|种类|数矩|铸印|组件1|组件2", 0, 0, 600, 250, -1)
+	$gItemInfo = GUICtrlCreateListView("包:名|包:号|包内位置|序号|型号|颜色码|数量|已鉴定数|已鉴定|未鉴定|可拆解|已装备|职业|格子|染色|属性需求|属性|种类|数矩|铸印|组件1|组件2", 0, 0, 600, 250, -1)
 	GUICtrlSetOnEvent(-1, "BoxEventHandler")
 	_GUICtrlListView_RegisterSortCallBack($gItemInfo)
 	_GUICtrlListView_DeleteAllItems($gItemInfo)
@@ -503,6 +503,14 @@ Func ItemsTable()
 			$item_model_id = ""
 			$item_rarity = ""
 			$item_quantity = ""
+
+			$item_Interaction = ""
+			$item_IsSalvageable = ""
+			$item_Equiped = ""
+			$item_Profession = ""
+			$item_Slot = ""
+
+
 			$item_color = ""
 			$item_requirement = ""
 			$item_attribute = ""
@@ -514,6 +522,13 @@ Func ItemsTable()
 			$item_model_id = DllStructGetData($item, 'ModelID')
 			$item_rarity = GetRarity($item)
 			$item_quantity = DllStructGetData($item, 'Quantity')
+
+			$item_Interaction = DllStructGetData($item, 'Interaction')
+			$item_IsSalvageable = DllStructGetData($item, 'IsSalvageable')
+			$item_Equiped = DllStructGetData($item, 'Equiped')
+			$item_Profession = DllStructGetData($item, 'Profession')
+			$item_Slot = DllStructGetData($item, 'Slot')
+
 			If DllStructGetData($item, 'ModelID') = 146 or DllStructGetData($item, 'ModelID') = 24888 Then
 				$item_color = GetColor(DllStructGetData($item, 'ExtraID'))
 			Endif
@@ -532,7 +547,10 @@ Func ItemsTable()
 			$item_mod2 = GetItemMod2($item)
 			$item_mod2 = _ArrayToString($item_mod2, "-")
 			$itemcount += 1
-			GUICtrlCreateListViewItem(""&$bag_name&"|"&$bag&"|"&$slot&"|"&$item_id&"|"&$item_model_id&"|"&$item_rarity&"|"&$item_quantity&"|"&$item_color&"|"&$item_requirement&"|"&$item_attribute&"|"&$item_type&"|"&$item_ModStruct&"|"&$item_insc&"|"&$item_mod1&"|"&$item_mod2&"", $gItemInfo)
+			GUICtrlCreateListViewItem(""&$bag_name&"|"&$bag&"|"&$slot&"|"&$item_id&"|"&$item_model_id&"|"&$item_rarity&"|"&$item_quantity&"|"& _
+			$item_Interaction&"|"&(BitAND($item_Interaction, 1) > 0)&"|"&(BitAND($item_Interaction, 8388608) > 0)&"|"&$item_IsSalvageable&"|"&$item_Equiped&"|"&$item_Profession&"|"& _
+			$item_Slot&"|"&$item_color&"|"& _
+			$item_requirement&"|"&$item_attribute&"|"&$item_type&"|"&$item_ModStruct&"|"&$item_insc&"|"&$item_mod1&"|"&$item_mod2&"", $gItemInfo)
 		Next
 	Next
 EndFunc
