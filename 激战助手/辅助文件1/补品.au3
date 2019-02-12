@@ -723,7 +723,13 @@ Func pconsToggle()
 			EndIf
 		Case $pconsCheckbox[$PCONS_LUNARS]
 			If $aState Then
-				If pconsFind($ITEM_ID_LUNARS_RAT) Or pconsFind($ITEM_ID_LUNARS_OX) Or pconsFind($ITEM_ID_LUNARS_TIGER) Or pconsFind($ITEM_ID_LUNARS_MONKEY) Or pconsFind($ITEM_ID_LUNARS_DRAGON) Or pconsFind($ITEM_ID_LUNARS_SNAKE) Or pconsFind($ITEM_ID_LUNARS_HORSE) Or pconsFind($ITEM_ID_LUNARS_RABBIT) Or pconsFind($ITEM_ID_LUNARS_SHEEP) or pconsFind($ITEM_ID_LUNARS_PIG) or pconsFind($ITEM_ID_LUNARS_ROOSTER) or pconsFind($ITEM_ID_LUNARS_DOG) or pconsFind($ITEM_ID_LUNARS_PIG_2) Then
+				If pconsFind($ITEM_ID_LUNARS_RAT) Or pconsFind($ITEM_ID_LUNARS_OX) Or _
+					pconsFind($ITEM_ID_LUNARS_TIGER) Or pconsFind($ITEM_ID_LUNARS_MONKEY) Or _
+					pconsFind($ITEM_ID_LUNARS_DRAGON) Or pconsFind($ITEM_ID_LUNARS_SNAKE) Or _
+					pconsFind($ITEM_ID_LUNARS_HORSE) Or pconsFind($ITEM_ID_LUNARS_RABBIT) Or _
+					pconsFind($ITEM_ID_LUNARS_SHEEP) or pconsFind($ITEM_ID_LUNARS_PIG) or _
+					pconsFind($ITEM_ID_LUNARS_ROOSTER) or pconsFind($ITEM_ID_LUNARS_DOG) or _
+					pconsFind($ITEM_ID_LUNARS_PIG_2) Then
 					$pconsActive[$PCONS_LUNARS] = True
 					IniWrite($iniFullPath, $pconsIniSection, $pconsName[$PCONS_LUNARS], True)
 				Else
