@@ -16,12 +16,12 @@ $math_pi = 3.1415926535897932384626
 $aCharName = GetParam("角色名")
 
 If $aCharName= "" Then
-	If Not Initialize(WinGetProcess("Guild Wars"), True, True, False) Then
+	If Not Initialize(WinGetProcess("Guild Wars"), True, True, True) Then
 		MsgBox(0, "失败", "未打开激战.")
 		Exit
 	EndIf
 Else
-	If Not Initialize($aCharName, True, True, False) Then
+	If Not Initialize($aCharName, True, True, True) Then
 		MsgBox(0, "失败", "找不到角色.")
 		Exit
 	EndIf

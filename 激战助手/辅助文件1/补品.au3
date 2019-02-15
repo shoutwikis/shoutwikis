@@ -633,7 +633,7 @@ EndFunc
 Func UseAlcohol()
 	Local $lItem
 	For $lBag=1 To 4
-		For $lSlot=1 To $BAG_SLOTS[$lBag]
+		For $lSlot=1 To DllStructGetData(GetBag($lBag), 'Slots')
 			$lItem = GetItemBySlot($lBag, $lSlot)
 			For $i=1 To $ITEM_ID_ALCOHOL_1[0]
 				If DllStructGetData($lItem, "ModelID") == $ITEM_ID_ALCOHOL_1[$i] Then
@@ -783,7 +783,7 @@ EndFunc
 
 Func pconsFind($aModelID)
 	For $lBag=1 To 4
-		For $lSlot=1 To $BAG_SLOTS[$lBag]
+		For $lSlot=1 To DllStructGetData(GetBag($lBag), 'Slots')
 			If DllStructGetData(GetItemBySlot($lBag, $lSlot), "ModelID") == $aModelID Then
 				Return True
 			EndIf
@@ -800,7 +800,7 @@ Func pconsScanInventory()
 	Local $lConsEssence=0, $lConsGrail=0, $lConsArmor=0
 	Local $lItem, $lQuantity, $lItemID
 	For $lBag=1 To 4 Step 1
-		For $lSlot = 1 To $BAG_SLOTS[$lBag]
+		For $lSlot = 1 To DllStructGetData(GetBag($lBag), 'Slots')
 			$lItem = GetItemBySlot($lBag, $lSlot)
 			$lQuantity = DllStructGetData($lItem, "Quantity")
 			$lItemID = DllStructGetData($lItem, "ModelID")

@@ -5,7 +5,7 @@
 Func UseItemByModelID($aModelID)
 	Local $lItem
 	For $lBag=1 To 4
-		For $lSlot=1 To $BAG_SLOTS[$lBag]
+		For $lSlot=1 To DllStructGetData(GetBag($lBag), 'Slots')
 			$lItem = GetItemBySlot($lBag, $lSlot)
 			If DllStructGetData($lItem, "ModelID") == $aModelID Then Return SendPacket(0x8, $UseItemHeader, DllStructGetData($lItem, "ID"))
 		Next
