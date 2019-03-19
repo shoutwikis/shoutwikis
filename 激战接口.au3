@@ -6255,7 +6255,25 @@ Func retainThis($item)
 	$item_mod1 = _ArrayToString($item_mod1, "-")
 	Local $item_mod2 = GetItemMod2($item)
 	$item_mod2 = _ArrayToString($item_mod2, "-")
+	Local $ModStruct = GetModStruct($item)
+	Local $type = DllStructGetData($item, 'Type')
 
+	Local $HCT20 = StringInStr($ModStruct, "00140828", 0 ,1) ; Halves casting time of spells of item's attribute (Chance: 20%)
+	If $HCT20 > 0 And ($type = 12 Or $type = 22 Or $type = 26) Then; 12 is Focus core of aptitude, 22 is Inscription Aptitude Not Attitude, 26 is Inscription or Adept Staff head
+		Return True
+	EndIf
+	Local $HSR20 = StringInStr($ModStruct, "00142828", 0, 1) ; Halves skill recharge of spells (Chance: 20%)
+	If $HSR20 > 0 And ($type = 12 Or $type = 22) Then ; 12 is Wand Wrapping of Memory, 22 is Forget Me Not
+		Return True
+	EndIf
+	Local $HealthAlways = StringInStr($ModStruct, "001E4823", 0 ,1) ; +30 Health
+	If $HealthAlways > 0 And ($type=24 or $type=26) Then ; 12 is focus core, 26 can be Staff Head or Wrap
+		Return True
+	EndIf
+	Local $ofDevotion = StringInStr($ModStruct, "002D6823", 0 ,1) ; +45 Health while Enchanted
+	If $ofDevotion > 0 And $type=24 Then ; 12 is Focus core, 24 is shield handle, 26 is staff wrapping
+		Return True
+	EndIf
 	;guided by fate; 0f = 15%
 	;if StringInStr($item_insc, '0F006822') > 0 then
 	;	return true

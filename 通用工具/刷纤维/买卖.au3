@@ -168,7 +168,7 @@ Func SELL($BAGINDEX)
 	Local $AITEM
 	Local $BAG = GETBAG($BAGINDEX)
 	Local $NUMOFSLOTS = DllStructGetData($BAG, "slots")
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		Upd("正在卖: " & $BAGINDEX & ", " & $I)
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
@@ -415,7 +415,7 @@ Func StackableDrops($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -451,7 +451,7 @@ Func EliteTomes($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -487,7 +487,7 @@ Func Tomes($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -523,7 +523,7 @@ Func Alcohol($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -559,7 +559,7 @@ Func Party($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -595,7 +595,7 @@ Func Sweets($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -631,7 +631,7 @@ Func Scrolls($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -667,7 +667,7 @@ Func DPRemoval($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -703,7 +703,7 @@ Func SpecialDrops($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -739,7 +739,7 @@ Func Materials($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
@@ -776,7 +776,7 @@ Func UNIDGolds($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$R = GetRarity($AITEM)
@@ -812,7 +812,7 @@ Func sDaggerShield($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$R = GetRarity($AITEM)
@@ -874,7 +874,7 @@ Func Reqs($BAGINDEX, $NUMOFSLOTS)
 	Local $FULL
 	Local $NSLOT
 	Local $Requirement
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$R = GetRarity($AITEM)
@@ -933,7 +933,7 @@ Func Mods($BAGINDEX, $NUMOFSLOTS)
 	Local $SLOT
 	Local $FULL
 	Local $NSLOT
-	For $I = 1 To $NUMOFSLOTS
+	For $I = 1 To DllStructGetData(GetBag($BAGINDEX), 'Slots')
 		$AITEM = GETITEMBYSLOT($BAGINDEX, $I)
 		If DllStructGetData($AITEM, "ID") = 0 Then ContinueLoop
 		$M = DllStructGetData($AITEM, "ModelID")
