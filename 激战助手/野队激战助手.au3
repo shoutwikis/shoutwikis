@@ -42,6 +42,7 @@
 #include <../激战接口.au3>
 #include <辅助文件2/激战常数.au3>
 #include <辅助文件2/辅助功能.au3>
+#include <辅助文件2/技能词典.au3>
 
 ; Include constants and other useful files
 #include <辅助文件1/一般常数.au3>
@@ -1008,7 +1009,7 @@ Func MyInitialize()
 		exitProgram()
 	EndIf
 
-	SetEvent('SkillActivate', '', '', '', '')
+	SetEvent('SkillActivate', 'SkillCancel', 'SkillComplete', '', '')
 
 EndFunc
 
@@ -1082,7 +1083,79 @@ EndFunc
 
 mainLoop()
 
+Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
+		Local $lCasterStruct = GetAgentByID($Caster)
+		;战士1, 游侠2, 僧侣3, 死灵4, 幻术5, 元素6, 暗杀7, 祭祀8, 圣言9, 神唤10
+		if (GUICtrlRead($hotkeyCheckbox[$HOTKEY_TALLY]) == $GUI_Checked) and (DllStructGetData($lCasterStruct, 'Allegiance') == 1) Then
+			Local $pinDao = "@" ;! # $
+
+			Local $zhiYe = DllStructGetData($lCasterStruct, 'Primary')
+			Local $fuzhi = DllStructGetData($lCasterStruct, 'Secondary')
+
+			if $zhiYe == 4 or $zhiYe == 5 then
+				if $fuzhi == 2 then
+					$pinDao = "!"
+				elseif $fuzhi == 7 then
+					$pinDao = "#"
+				elseif $fuzhi == 3 then
+					$pinDao = "$"
+				endif
+
+				Local $agentName, $temp_name, $skillLink, $targetName
+				$agentName = GetAgentName($Caster)
+				$targetName = GetAgentName($Target)
+				$skillLink=StringReplace(SkillDictionary($Skill), "<div align='center'><a href='https://guildwars.huijiwiki.com/wiki/", "")
+				$skillLink=StringRegExpReplace($skillLink, "'><img.*?$", "")
+				if $agentName == "" then
+					$agentName = GetPlayerName($Caster)
+					if $agentName == "" then $agentName = $Caster  & " 号机体"
+				endif
+
+				if $targetName == "" then
+					$agentName = GetPlayerName($Target)
+					if $targetName == "" then $targetName = $Target  & " 号机体"
+				endif
+
+				$agentName=StringRegExpReplace($agentName, "\[.*?\]", "")
+				$targetName= StringRegExpReplace($targetName, "\[.*?\]", "")
+
+				Local $agentEnergy
+				if $Completed == "零施展" then
+					writechat(GetSkillEnergyCost($Skill))
+					$agentEnergy = Round(DllStructGetData($lCasterStruct, 'MaxEnergy') * DllStructGetData($lCasterStruct, 'EnergyPercent') - GetSkillEnergyCost($Skill))
+					$agentEnergy = "(不准)"&$agentEnergy
+				else
+					$agentEnergy = Round(DllStructGetData($lCasterStruct, 'MaxEnergy') * DllStructGetData($lCasterStruct, 'EnergyPercent'))
+				endif
+
+				if $Completed then
+					Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+				else
+					Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
+				endif
+				;ChangeTarget($Target)
+			endif
+		endif
+EndFunc
+
+Func SkillComplete($Caster, $Target, $Skill)
+
+	DuiYuan_ShiFa($Caster, $Target, $Skill)
+
+EndFunc
+
+Func SkillCancel($Caster, $Target, $Skill)
+
+	DuiYuan_ShiFa($Caster, $Target, $Skill, false)
+
+EndFunc
+
 Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
+
+	if Round($aTime) == 0 and (DllStructGetData(GetAgentByID($aCaster), 'Allegiance') == 1) then
+		DuiYuan_ShiFa($aCaster, $aTarget, $aSkill, "零施展")
+	endif
+
 	#cs
 	if $aSkill == 390 or $aSkill == 325 or $aSkill == 329 or $aSkill == 61 or $aSkill == 25 or $aSkill == 57 or $aSkill == 5 or $aSkill == 23 then
 

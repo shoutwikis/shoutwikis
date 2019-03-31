@@ -13,13 +13,13 @@ this file contains everything related to the hotkeys tab and hotkeys functionali
 
 #ce
 
-Global $hotkeyCount = 25 ;23
-Global $hotkeyLegitCount = 25 ;15
+Global $hotkeyCount = 26 ;23
+Global $hotkeyLegitCount = 26 ;15
 Global Enum $HOTKEY_STUCK, $HOTKEY_RECALL, $HOTKEY_UA, $HOTKEY_RESIGN, $HOTKEY_TEAMRESIGN, _
 $HOTKEY_CLICKER, $HOTKEY_RES, $HOTKEY_AGE, $HOTKEY_AGEPM, $HOTKEY_PSTONE, $HOTKEY_GHOSTTARGET, _
 $HOTKEY_GHOSTPOP, $HOTKEY_GSTONEPOP, $HOTKEY_LEGIOPOP, $HOTKEY_RAINBOWUSE, _
 $HOTKEY_LOOTER, $HOTKEY_IDENTIFIER, $HOTKEY_FOCUS, $HOTKEY_HIDEGW, _
-$HOTKEY_RUPT, $HOTKEY_MOVEMENT, $HOTKEY_DROP1COIN, $HOTKEY_DROPCOINS, $HOTKEY_OPENCHEST, $HOTKEY_TARGET
+$HOTKEY_RUPT, $HOTKEY_MOVEMENT, $HOTKEY_DROP1COIN, $HOTKEY_DROPCOINS, $HOTKEY_OPENCHEST, $HOTKEY_TARGET, $HOTKEY_TALLY
 
 Local $clickerToggle = False
 Local $dropCoinToggle = False
@@ -60,6 +60,7 @@ $hotkeyName[$HOTKEY_DROP1COIN] = "drop1coin"
 $hotkeyName[$HOTKEY_DROPCOINS] = "dropcoins"
 $hotkeyName[$HOTKEY_OPENCHEST] = "openchest"
 $hotkeyName[$HOTKEY_TARGET] = "lockontarget"
+$hotkeyName[$HOTKEY_TALLY] = "teamusage"
 
 ; the function to call when an hotkey is pressed. the function MUST be named "action" and then the name, e.g. actionstuck, actionrecall, etc
 Global $hotkeyAction[$hotkeyCount]
@@ -153,6 +154,9 @@ GUICtrlCreateTabItem("Hotkeys")
 
 	hotkeyMakeGroup("瞄准", $HOTKEY_TARGET, _
 		"瞄准特定目标 (也适用于雷达区内尚未现身的目标)")
+
+	hotkeyMakeGroup("四门检测", $HOTKEY_TALLY, _
+		"广播打手表现")
 
 	hotkeyMakeGroup("验位", $HOTKEY_STUCK, _
 		"发送同步指令/stuck， 呈现角色确切位置. 工具将同时密送指令, 以表明指令已发出")
@@ -415,6 +419,10 @@ Func actionlockontarget()
 	Next
 	If $lClosest > 0 Then ChangeTarget($lArr[$lClosest])
 	WriteChat("已瞄准目标", "激战助手")
+EndFunc
+
+Func actionteamusage()
+
 EndFunc
 
 Func actionresign()
