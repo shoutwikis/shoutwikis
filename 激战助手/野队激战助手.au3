@@ -1086,7 +1086,7 @@ mainLoop()
 Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 		Local $lCasterStruct = GetAgentByID($Caster)
 		;战士1, 游侠2, 僧侣3, 死灵4, 幻术5, 元素6, 暗杀7, 祭祀8, 圣言9, 神唤10
-		if (GUICtrlRead($hotkeyCheckbox[$HOTKEY_TALLY]) == $GUI_Checked) and (DllStructGetData($lCasterStruct, 'Allegiance') == 1) Then
+		if (GUICtrlRead($hotkeyCheckbox[$HOTKEY_TALLY]) == $GUI_Checked) and (DllStructGetData($lCasterStruct, 'PlayerNumber') <= 8) and (DllStructGetData($lCasterStruct, 'Allegiance') == 1)  Then
 			Local $pinDao = false ;! # $
 
 			Local $zhiYe = DllStructGetData($lCasterStruct, 'Primary')
@@ -1145,9 +1145,9 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 						CallTarget($Target)
 						WriteChat($Target)
 					endif
-					if DllStructGetData(GetAgentByID($Target), 'HP') < 0.2 then
+					if DllStructGetData(GetAgentByID($Target), 'HP') < 0.30 then
 						;(DllStructGetData(GetAgentByID($Target), 'MaxHP') * DllStructGetData(GetAgentByID($Target), 'HP'))
-						SendChat("按T键，瞄准并杀掉目标", "!")
+						SendChat("按T键，瞄准并杀掉目标", "#")
 						CallTarget($Target)
 					endif
 				else
