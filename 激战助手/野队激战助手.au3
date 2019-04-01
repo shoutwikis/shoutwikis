@@ -1141,9 +1141,14 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 							WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
 						endif
 					endif
-					if $Skill = 979 and ($Target= 5212 or $Target= 5213 or $Target= 5199) then
+					if $Skill == 979 and ($Target == 5212 or $Target == 5213 or $Target == 5199) then
 						CallTarget($Target)
 						WriteChat($Target)
+					endif
+					if DllStructGetData(GetAgentByID($Target), 'HP') < 0.2 then
+						;(DllStructGetData(GetAgentByID($Target), 'MaxHP') * DllStructGetData(GetAgentByID($Target), 'HP'))
+						SendChat("按T键，瞄准并杀掉目标")
+						CallTarget($Target)
 					endif
 				else
 					if $pinDao then
