@@ -1129,7 +1129,15 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 				endif
 
 				if $Completed then
-					Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+					if $Caster == $Target then
+						Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 施展了: <<"&$skillLink&">>", $pinDao)
+					else
+						Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+					endif
+					if $Skill = 979 and ($Target= 5212 or $Target= 5213 or $Target= 5199) then
+						CallTarget($Target)
+						WriteChat($Target)
+					endif
 				else
 					Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
 				endif
