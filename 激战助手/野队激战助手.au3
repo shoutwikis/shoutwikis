@@ -1087,20 +1087,20 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 		Local $lCasterStruct = GetAgentByID($Caster)
 		;战士1, 游侠2, 僧侣3, 死灵4, 幻术5, 元素6, 暗杀7, 祭祀8, 圣言9, 神唤10
 		if (GUICtrlRead($hotkeyCheckbox[$HOTKEY_TALLY]) == $GUI_Checked) and (DllStructGetData($lCasterStruct, 'Allegiance') == 1) Then
-			Local $pinDao = "@" ;! # $
+			Local $pinDao = false ;! # $
 
 			Local $zhiYe = DllStructGetData($lCasterStruct, 'Primary')
 			Local $fuzhi = DllStructGetData($lCasterStruct, 'Secondary')
 
-			if $zhiYe == 4 or $zhiYe == 5 then
-				if $fuzhi == 2 then
+			if $zhiYe == 4 and $fuzhi = 2 then
 					$pinDao = "!"
-				elseif $fuzhi == 7 then
+			elseif $zhiYe == 5 and $fuzhi == 7 then
 					$pinDao = "#"
-				elseif $fuzhi == 3 then
+			elseif $zhiYe == 5 and $fuzhi == 3 then
 					$pinDao = "$"
-				endif
+			endif
 
+			if $zhiYe == 4 or $zhiYe == 5 then
 				Local $agentName, $temp_name, $skillLink, $targetName
 				$agentName = GetAgentName($Caster)
 				$targetName = GetAgentName($Target)
@@ -1121,7 +1121,6 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 
 				Local $agentEnergy
 				if $Completed == "零施展" then
-					writechat(GetSkillEnergyCost($Skill))
 					$agentEnergy = Round(DllStructGetData($lCasterStruct, 'MaxEnergy') * DllStructGetData($lCasterStruct, 'EnergyPercent') - GetSkillEnergyCost($Skill))
 					$agentEnergy = "(不准)"&$agentEnergy
 				else
@@ -1130,16 +1129,28 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 
 				if $Completed then
 					if $Caster == $Target then
-						Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 施展了: <<"&$skillLink&">>", $pinDao)
+						if $pinDao then
+							Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 施展了: <<"&$skillLink&">>", $pinDao)
+						else
+							WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 施展了: <<"&$skillLink&">>")
+						endif
 					else
-						Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+						if $pinDao then
+							Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+						else
+							WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+						endif
 					endif
 					if $Skill = 979 and ($Target= 5212 or $Target= 5213 or $Target= 5199) then
 						CallTarget($Target)
 						WriteChat($Target)
 					endif
 				else
-					Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
+					if $pinDao then
+						Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
+					else
+						WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
+					endif
 				endif
 				;ChangeTarget($Target)
 			endif
