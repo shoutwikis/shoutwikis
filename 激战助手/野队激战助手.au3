@@ -1106,6 +1106,7 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 				$targetName = GetAgentName($Target)
 				$skillLink=StringReplace(SkillDictionary($Skill), "<div align='center'><a href='https://guildwars.huijiwiki.com/wiki/", "")
 				$skillLink=StringRegExpReplace($skillLink, "'><img.*?$", "")
+				$skillLink=StringReplace($skillLink, "%22", '"')
 				if $agentName == "" then
 					$agentName = GetPlayerName($Caster)
 					if $agentName == "" then $agentName = $Caster  & " 号机体"
