@@ -1122,7 +1122,7 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 				Local $agentEnergy
 				if $Completed == "零施展" then
 					$agentEnergy = Round(DllStructGetData($lCasterStruct, 'MaxEnergy') * DllStructGetData($lCasterStruct, 'EnergyPercent') - GetSkillEnergyCost($Skill))
-					$agentEnergy = "(不准)"&$agentEnergy
+					$agentEnergy = "~"&$agentEnergy
 				else
 					$agentEnergy = Round(DllStructGetData($lCasterStruct, 'MaxEnergy') * DllStructGetData($lCasterStruct, 'EnergyPercent'))
 				endif
@@ -1179,6 +1179,12 @@ Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
 	if Round($aTime) == 0 and (DllStructGetData(GetAgentByID($aCaster), 'Allegiance') == 1) then
 		DuiYuan_ShiFa($aCaster, $aTarget, $aSkill, "零施展")
 	endif
+
+	if $Skill == 1894 then ;阿尔古之触
+		ChangeTarget($Caster)
+		UseSkillByIDOnTarget(2358)
+	endif
+
 
 	#cs
 	if $aSkill == 390 or $aSkill == 325 or $aSkill == 329 or $aSkill == 61 or $aSkill == 25 or $aSkill == 57 or $aSkill == 5 or $aSkill == 23 then

@@ -3911,9 +3911,48 @@ Func GetSkillEnergyCost($aSkillID)
 
 EndFunc
 
+;~ Description: Use skill with death check, energy check.
+Func UseSkillExEx($aSkillSlot, $aTarget = -2, $aTimeout = 3000, $aMeleeSkill = False)
+   Local $lMePtr = GetAgentByID(-2)
+   If IsDllStruct($aTarget) <> 0 Then
+	  Local $lTargetPtr = $aTarget
+   Else
+	  Local $lTargetPtr = GetAgentByID($aTarget)
+   EndIf
+   If $lTargetPtr = 0 Then Return ; no target found
+   If GetSkillbarSkillRecharge($aSkillSlot) <> 0 Then Return
+   Local $lDeadlock = TimerInit()
+   ;ChangeTarget($aTarget)
+   Local $lSkillPtr = GetSkillByID(GetSkillbarSkillID($aSkillSlot))
+
+   Local $energyReqss = DllStructGetData($lSkillPtr, "EnergyCost")
+
+   if haseffect(475) then $energyReqss = $energyReqss * 1.3 ;quickening zephyr
+   If GetEnergy($lMePtr) < $energyReqss Then Return
+
+   UseSkill($aSkillSlot, $aTarget)
+   ;Update("正在用 " & $aSkillSlot & " 号技能.","激战助手")
+   Do
+	  Sleep(50)
+	  If GetIsDead($lMePtr) Then Return ; only me died
+	  If GetIsDead($lTargetPtr) Then Return ; target died
+	  If GetEnergy($lMePtr) < $energyReqss Then Return ; not enough energy
+	  If TimerDiff($lDeadlock) > $aTimeout Then Return
+   Until GetSkillbarSkillRecharge($aSkillSlot) <> 0
+   Return True
+EndFunc   ;==>UseSkillExEx
+
+Func UseSkillByIDOnTarget($aSkillID, $aAgentID = -1)
+   For $i = 8 to 1 Step -1
+	  If GetSkillbarSkillID($i) = $aSkillID Then
+		 Return UseSkillExEx($i, $aAgentID)
+	  EndIf
+   Next
+EndFunc   ;==>UseSkillByIDOnTarget
+
 ;~ Description: Returns skill struct.
 Func GetSkillByID($aSkillID)
-	Local $lSkillStruct = DllStructCreate('long ID;byte Unknown1[4];long campaign;long Type;long Special;long ComboReq;long Effect1;long Condition;long Effect2;long WeaponReq;byte Profession;byte Attribute;byte Unknown2[2];long PvPID;byte Combo;byte Target;byte unknown3;byte EquipType;byte Unknown4[4];dword Adrenaline;float Activation;float Aftercast;long Duration0;long Duration15;long Recharge;byte Unknown5[12];long Scale0;long Scale15;long BonusScale0;long BonusScale15;float AoERange;float ConstEffect;byte unknown6[44]')
+	Local $lSkillStruct = DllStructCreate('long ID;byte Unknown1[4];long campaign;long Type;long Special;long ComboReq;long Effect1;long Condition;long Effect2;long WeaponReq;byte Profession;byte Attribute;short PvESkill;long PvPID;byte Combo;byte Target;byte Unknown2;byte EquipType;byte Unknown3;byte EnergyCost;byte HealthCost;byte Unknown4;dword Adrenaline;float Activation;float Aftercast;long Duration0;long Duration15;long Recharge;byte Unknown5[12];long Scale0;long Scale15;long BonusScale0;long BonusScale15;float AoERange;float ConstEffect;byte Unknown6[32];dword Name;byte Unknown7[4];dword Description;')
 	Local $lSkillStructAddress = $mSkillBase + 160 * $aSkillID
 	DllCall($mKernelHandle, 'int', 'ReadProcessMemory', 'int', $mGWProcHandle, 'int', $lSkillStructAddress, 'ptr', DllStructGetPtr($lSkillStruct), 'int', DllStructGetSize($lSkillStruct), 'int', '')
 	Return $lSkillStruct
