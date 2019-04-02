@@ -1147,7 +1147,7 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 					endif
 					if DllStructGetData(GetAgentByID($Target), 'HP') < 0.30 then
 						;(DllStructGetData(GetAgentByID($Target), 'MaxHP') * DllStructGetData(GetAgentByID($Target), 'HP'))
-						SendChat("按T键，瞄准并杀掉目标", "#")
+						SendChat("按 [T] 键，瞄准并杀掉目标", "#")
 						CallTarget($Target)
 					endif
 				else
@@ -1176,11 +1176,11 @@ EndFunc
 
 Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
 
-	if Round($aTime) == 0 and (DllStructGetData(GetAgentByID($aCaster), 'Allegiance') == 1) then
+	if $aTime < 0.01 and (DllStructGetData(GetAgentByID($aCaster), 'Allegiance') == 1) then
 		DuiYuan_ShiFa($aCaster, $aTarget, $aSkill, "零施展")
 	endif
 
-	if $Skill == 1894 then ;阿尔古之触
+	if $aSkill == 1894 then ;阿尔古之触
 		ChangeTarget($Caster)
 		UseSkillByIDOnTarget(2358)
 	endif
