@@ -1182,10 +1182,18 @@ Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
 	endif
 
 	if $aSkill == 1894 then ;阿尔古之触
-		ChangeTarget($Caster)
+		ChangeTarget($aCaster)
 		UseSkillByIDOnTarget(2358)
 	endif
 
+	if $aSkill == 1753 then WriteChat("==发现 撕裂扫荡：检查加持==")
+	if $aSkill == 1349 or $aSkill == 69 or $aSkill == 143 or $aSkill == 144 then ;反加持之镜, 加持粉碎, 剥夺加持, 冻伤
+		Local $lCasterStruct = GetAgentByID($aCaster)
+		if (NOT GetHasHex($lCasterStruct)) and DllStructGetData($lCasterStruct, 'Allegiance') == 3 then ;and (NOT GetIsDead($lCasterStruct))
+			WriteChat("发现摘加持技能")
+			CallTarget($aCaster)
+		endif
+	endif
 
 	#cs
 	if $aSkill == 390 or $aSkill == 325 or $aSkill == 329 or $aSkill == 61 or $aSkill == 25 or $aSkill == 57 or $aSkill == 5 or $aSkill == 23 then
