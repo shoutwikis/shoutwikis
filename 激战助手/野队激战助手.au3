@@ -1131,15 +1131,15 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 				if $Completed then
 					if $Caster == $Target then
 						if $pinDao then
-							Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 施展了: <<"&$skillLink&">>", $pinDao)
+							Sendchat(""&$agentName&" 施展了: <<"&$skillLink&">>", $pinDao)
 						else
-							WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 施展了: <<"&$skillLink&">>")
+							WriteChat(""&$agentName&" 施展了: <<"&$skillLink&">>")
 						endif
 					else
 						if $pinDao then
-							Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
+							Sendchat(""&$agentName&" 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>", $pinDao)
 						else
-							WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>")
+							WriteChat(""&$agentName&" 对 "&$targetName&"("&$Target&"号) 施展了: <<"&$skillLink&">>")
 						endif
 					endif
 					if $Skill == 979 and ($Target == 5212 or $Target == 5213 or $Target == 5199) then
@@ -1153,9 +1153,9 @@ Func DuiYuan_ShiFa($Caster, $Target, $Skill, $Completed=true)
 					endif
 				else
 					if $pinDao then
-						Sendchat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
+						Sendchat(""&$agentName&" 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>", $pinDao)
 					else
-						WriteChat(""&$agentName&"["&$agentEnergy&"蓝] 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>")
+						WriteChat(""&$agentName&" 所发的 [["&$skillLink&"]] <<被断>><<被断>><<被断>>")
 					endif
 				endif
 				;ChangeTarget($Target)
@@ -1186,11 +1186,11 @@ Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
 		UseSkillByIDOnTarget(2358)
 	endif
 
-	if $aSkill == 1753 then WriteChat("==发现 撕裂扫荡：检查加持==")
+	if ($aSkill == 1753) and ($aTarget == GetMyID()) then writechat("==发现 撕裂扫荡：检查加持==")
 	if $aSkill == 1349 or $aSkill == 69 or $aSkill == 143 or $aSkill == 144 then ;反加持之镜, 加持粉碎, 剥夺加持, 冻伤
 		Local $lCasterStruct = GetAgentByID($aCaster)
 		if (NOT GetHasHex($lCasterStruct)) and DllStructGetData($lCasterStruct, 'Allegiance') == 3 then ;and (NOT GetIsDead($lCasterStruct))
-			WriteChat("发现摘加持技能")
+			WriteChat("发现摘加持技能: "&$aSkill)
 			CallTarget($aCaster)
 		endif
 	endif

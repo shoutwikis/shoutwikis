@@ -389,36 +389,169 @@ Func actionopenchest()
 	endif
 EndFunc
 
+;#include <Array.au3>
+;other enemy id's
 Func actionlockontarget()
 	If Not isGwOnTop() Then Return
 	If GetMapLoading() == $INSTANCETYPE_LOADING Then Return
 
+
 	Local $lMe = GetAgentByID(-2)
-	Local $lDistance = 10000000
-	Local $lClosest = -1
-	Local $lArr = GetAgentArray()
+	Local $lMyID = GetMyID()
+	Local $tFound = -1
+	Local $lArr = GetAgentArray(0xDB) ;只瞄准生物
 	Local $lTmp
+
+	Local $soulCount = 0
+	Local $mindCount = 0
+	Local $waterCount = 0
+	Local $spiritCount = 0
+	Local $sanityCount = 0
+	Local $totalCount = 0 ;not used
+	Local $countDoa = false
+	Local $soulDistance = 1400
+	if GetMapID() == 474 then $countDoa = true
+
+	#cs
+	Range:
+	Adjacent = 166; Nearby = 238; Area = 322; Earshot = 1010; Spellcast = 1246; Spirit = 2500; Compass = 5000;
+	SqrRange:
+	Square the above
+	-------------
+	StygianHunger = 5171;StygianBrute = 5172;StygianGolem = 5173;StygianHorror = 5174;StygianFiend = 5175;
+	HeartTormentor = 5203;5179 FleshTormentor = 5204;5180  EarthTormentor = 5206;5182
+	;if  DllStructGetData($lArr[$i], "Allegiance") == 3 then
+	#ce
+
+	;缺：蜘蛛5211，马5212
+	;越前越重要
+	Local $ExtraArrayEntriesCount = 3
+	Local $negExtraArrayEntriesCount = (-1) * $ExtraArrayEntriesCount ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; not used, but here used 3 extra array entries, with order numbers: -3, -2, -1
+
+	Local $targetArray = [ _
+						 [5147, 5148, 0, 0], _ ;巨大阴影，阴影
+						 [5145, 5146, 0, 0] _ ;狂怒者, 黑魔兽
+						 ]
+
+	Local $currentCardinal = 10000000
+
+	Local $recordSize = Ubound($targetArray)+$ExtraArrayEntriesCount
+	Local $distanceRecord[$recordSize]
+	for $p = 0 To Ubound($distanceRecord) - 1
+		$distanceRecord[$p] = 10000000
+	next
+
+	Local $allyDistance = 10000000
+
+	Local $debugMsg = ""
+
 	For $i=1 To $lArr[0]
-		if GUICtrlRead($targetIDinput) == -1 then
-			if DllStructGetData($lArr[$i], 'Allegiance') == 6 then
-				$lTmp = GetPseudoDistance($lMe, $lArr[$i])
-				If $lTmp < $lDistance Then
-					$lClosest = $i
-					$lDistance = $lTmp
-				EndIf
+
+		Local $lPlayerNumber = DllStructGetData($lArr[$i], 'PlayerNumber')
+		Local $testDistance = Round(GetDistance($lMe, $lArr[$i]))
+		Local $continueLoop = false
+		Local $ImTargeted = false
+		if GetTarget(DllStructGetData($lArr[$i], "ID")) == $lMyID then $ImTargeted = true
+
+		if GUICtrlRead($targetIDinput) <> -1 and $lPlayerNumber == GUICtrlRead($targetIDinput) then
+			ChangeTarget($lArr[$i])
+			If $testDistance < $distanceRecord[$recordSize-1] Then
+					$tFound = $i
+					$distanceRecord[$recordSize-1] = $testDistance
+					$currentCardinal = $negExtraArrayEntriesCount+0
 			EndIf
-		else
-			If DllStructGetData($lArr[$i], 'PlayerNumber') == GUICtrlRead($targetIDinput) then ;And DllStructGetData($lArr[$i], 'HP') > 0 Then
-				$lTmp = GetPseudoDistance($lMe, $lArr[$i])
-				If $lTmp < $lDistance Then
-					$lClosest = $i
-					$lDistance = $lTmp
-				EndIf
-			EndIf
+			continueloop
 		endif
+
+		If BitAND(DllStructGetData($lArr[$i], 'Effects'), 0x0010) <= 0 and DllStructGetData($lArr[$i], 'HP') > 0 and GetIsLiving($lArr[$i]) then
+
+			switch $lPlayerNumber
+				;冥狱之幕， 夺心暗域
+				case 5176, 5200 ;精神-拷问者
+					if $ImTargeted and $testDistance <= $soulDistance then $mindCount += 1
+					$continueLoop = true
+				case 5177, 5201 ;魂-拷问者
+					if $ImTargeted and $testDistance <= $soulDistance then $soulCount += 1
+					$continueLoop = true
+				case 5178, 5202 ;水-拷问者
+					if $ImTargeted and $testDistance <= $soulDistance then $waterCount += 1
+					$continueLoop = true
+				case 5181, 5205 ;灵-拷问者 -2
+					if $ImTargeted and $testDistance <= $soulDistance then
+						$spiritCount += 1
+						ChangeTarget($lArr[$i])
+						;writechat($currentCardinal&">="&($negExtraArrayEntriesCount+1)&($currentCardinal >= ($negExtraArrayEntriesCount+1))&$i)
+						if $currentCardinal > ($negExtraArrayEntriesCount+1) or ($currentCardinal = ($negExtraArrayEntriesCount+1) and $testDistance < $distanceRecord[$recordSize-2]) then
+								$tFound = $i
+								$distanceRecord[$recordSize-2] = $testDistance
+								$currentCardinal = $negExtraArrayEntriesCount+1
+								;$debugMsg = $debugMsg&$i&"灵["&$currentCardinal&"]|"&$testDistance&"||"
+						endif
+					endif
+					$continueLoop = true
+				case 5183, 5208 ;声-拷问者 -1
+					if $ImTargeted and $testDistance <= $soulDistance then
+						$sanityCount += 1
+						ChangeTarget($lArr[$i])
+						;writechat($currentCardinal&">="&($negExtraArrayEntriesCount+2)&($currentCardinal >= ($negExtraArrayEntriesCount+2) )&$i)
+						if $currentCardinal > ($negExtraArrayEntriesCount+2) or ($currentCardinal = ($negExtraArrayEntriesCount+2) and $testDistance < $distanceRecord[$recordSize-3]) then
+								$tFound = $i
+								$distanceRecord[$recordSize-3] = $testDistance
+								$currentCardinal = $negExtraArrayEntriesCount+2
+								;$debugMsg = $debugMsg&$i&"声["&$currentCardinal&"]"&$testDistance&"||"
+						endif
+					endif
+					$continueLoop = true
+			endswitch
+
+			if $continueLoop then continueloop
+
+			For $o = 0 To Ubound($targetArray) - 1
+				switch $lPlayerNumber
+					case $targetArray[$o][0], $targetArray[$o][1], $targetArray[$o][2], $targetArray[$o][3]
+						;if $ImTargeted and $testDistance <= $soulDistance then
+							ChangeTarget($lArr[$i])
+							if GetHasHex($lArr[$i]) then
+								if $testDistance <= $soulDistance then
+									$testDistance = $soulDistance + ($testDistance/1000)
+								else
+									$testDistance = 5000 + ($testDistance/1000)
+								endif
+							endif
+
+							if $currentCardinal > $o or ($currentCardinal = $o and $testDistance < $distanceRecord[$o]) then
+								$tFound = $i
+								$distanceRecord[$o] = $testDistance
+								$currentCardinal = $o
+							endif
+						;endif
+						$continueLoop = true
+				endswitch
+				if $continueLoop then exitloop
+			Next
+		endif
+
+		if DllStructGetData($lArr[$i], 'Allegiance') == 6 then
+			If $currentCardinal > Ubound($targetArray) or ($currentCardinal = Ubound($targetArray) and $testDistance < $allyDistance) Then
+				$tFound = $i
+				$allyDistance = $testDistance
+				$currentCardinal = Ubound($targetArray)
+			EndIf
+		EndIf
+
 	Next
-	If $lClosest > 0 Then ChangeTarget($lArr[$lClosest])
-	WriteChat("已瞄准目标", "激战助手")
+	;_ArrayDisplay($distanceRecord)
+	;writechat($debugMsg)
+	If $tFound > 0 Then
+		ChangeTarget($lArr[$tFound])
+		;WriteChat("已瞄准目标", "激战助手")
+	endif
+
+	if $countDoa then WriteChat($soulCount&"魂 | "&$mindCount&"精神 | "&$waterCount&"水 ::::: "&$spiritCount&"灵 | "&$sanityCount&"声", "激战助手")
+	;else
+	;	WriteChat($totalCount&"总", "激战助手")
+	;endif
+
 EndFunc
 
 Func actionteamusage()
@@ -562,7 +695,12 @@ EndFunc
 Func actionghostpop()
 	If Not isGwOnTop() Then Return
 	If GetMapLoading() <> $INSTANCETYPE_EXPLORABLE Then Return
-	If Not UseItemByModelID($MODELID_GHOST_IN_THE_BOX) Then WriteChat("[提示] 盒中魂已尽!", "激战助手")
+	If Not UseItemByModelID($MODELID_GHOST_IN_THE_BOX) Then
+		WriteChat("[提示] 盒中魂已尽!", "激战助手")
+		return 0
+	else
+		actionghosttarget()
+	endif
 EndFunc
 
 Func actionghosttarget()
