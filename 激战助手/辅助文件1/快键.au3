@@ -547,7 +547,7 @@ Func actionlockontarget()
 		;WriteChat("已瞄准目标", "激战助手")
 	endif
 
-	if $countDoa then WriteChat($soulCount&"魂 | "&$mindCount&"精神 | "&$waterCount&"水 ::::: "&$spiritCount&"灵 | "&$sanityCount&"声", "激战助手")
+	if $countDoa then WriteChat($soulCount&"魂 | "&$mindCount&"精神 | "&$waterCount&"水 || 总和： ["&$soulCount+$mindCount+$waterCount&"] ::::: "&$spiritCount&"灵 | "&$sanityCount&"声", "激战助手")
 	;else
 	;	WriteChat($totalCount&"总", "激战助手")
 	;endif
