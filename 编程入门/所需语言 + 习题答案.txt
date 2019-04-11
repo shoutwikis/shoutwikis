@@ -1,0 +1,3 @@
+下载所需语言：									https://download.racket-lang.org/
+程序设计方法 - 1.0版:							https://github.com/prathyvsh/htdp
+计算机程序的构造和解释 - 2.0版:					https://github.com/qiao/sicp-solutions
