@@ -429,8 +429,8 @@ Func actionlockontarget()
 	Local $negExtraArrayEntriesCount = (-1) * $ExtraArrayEntriesCount ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; not used, but here used 3 extra array entries, with order numbers: -3, -2, -1
 
 	Local $targetArray = [ _
-						 [5147, 5148, 0, 0], _ ;巨大阴影，阴影
-						 [5145, 5146, 0, 0] _ ;狂怒者, 黑魔兽
+						 [5147, 5148, 0, 0], _ ;巨大阴影，随从；阴影
+						 [5145, 5146, 0, 0] _ ;狂怒者；黑色魔兽阿尔古
 						 ]
 
 	Local $currentCardinal = 10000000
