@@ -134,56 +134,56 @@ Local $mChangeStatusPtr = DllStructGetPtr($mChangeStatus)
 #EndRegion CommandStructs
 
 #Region Headers
-Local $SalvageMaterialsHeader = 0x7F
-Local $SalvageModHeader = 0x80
-Local $IdentifyItemHeader = 0x71
+Local $SalvageMaterialsHeader = 0x80
+Local $SalvageModHeader = 0x81
+Local $IdentifyItemHeader = 0x72
 Local $EquipItemHeader = 0x36
-Local $UseItemHeader = 0x83
+Local $UseItemHeader = 0x84
 Local $PickUpItemHeader = 0x45
 Local $DropItemHeader = 0x32
-Local $MoveItemHeader = 0x77
-Local $AcceptAllItemsHeader = 0x78
+Local $MoveItemHeader = 0x78
+Local $AcceptAllItemsHeader = 0x79
 Local $DropGoldHeader = 0x35
-Local $ChangeGoldHeader = 0x81
+Local $ChangeGoldHeader = 0x82
 Local $AddHeroHeader = 0x23
 Local $KickHeroHeader = 0x24
 Local $AddNpcHeader = 0xA5
-Local $KickNpcHeader = 0xAE
+Local $KickNpcHeader = 0xAD
 Local $CommandHeroHeader = 0x1E
 Local $CommandAllHeader = 0x1F
 Local $DropHerosBundleHeader = 0x19
 Local $LockHeroTargetHeader = 0x18
 Local $SetHeroAggressionHeader = 0x17
 Local $ChangeHeroSkillSlotStateHeader = 0x1C
-Local $SetDisplayedTitleHeader = 0x5D
-Local $RemoveDisplayedTitleHeader = 0x5E
+Local $SetDisplayedTitleHeader = 0x5E
+Local $RemoveDisplayedTitleHeader = 0x5F
 Local $GoPlayerHeader = 0x39
 Local $GoNPCHeader = 0x3F
 Local $GoSignpostHeader = 0x57
 Local $AttackHeader = 0x2C
-Local $MoveMapHeader = 0xB7
-Local $ReturnToOutpostHeader = 0xAD
-Local $EnterChallengeHeader = 0xAB
-Local $TravelGHHeader = 0xB6
-Local $LeaveGHHeader = 0xB8
+Local $MoveMapHeader = 0xB8
+Local $ReturnToOutpostHeader = 0xAE
+Local $EnterChallengeHeader = 0xAC
+Local $TravelGHHeader = 0xB7
+Local $LeaveGHHeader = 0xB9
 Local $AbandonQuestHeader = 0x12
-Local $CallTargetHeader = 0x28
+Local $CallTargetHeader = 0x2C
 Local $CancelActionHeader = 0x2E
 Local $OpenChestHeader = 0x59
 Local $DropBuffHeader = 0x2F
 Local $LeaveGroupHeader = 0xA8
-Local $SwitchModeHeader = 0xA1
+Local $SwitchModeHeader = 0xA2
 Local $DonateFactionHeader = 0x3B
 Local $DialogHeader = 0x41
-Local $SkipCinematicHeader = 0x68
-Local $SetSkillbarSkillHeader = 0x61
-Local $LoadSkillbarHeader = 0x62
+Local $SkipCinematicHeader = 0x69
+Local $SetSkillbarSkillHeader = 0x62
+Local $LoadSkillbarHeader = 0x63
 Local $ChangeSecondProfessionHeader = 0x47
-Local $SendChatHeader = 0x69
+Local $SendChatHeader = 0x6A
 Local $SetAttributesHeader = 0x10
 Local $AcceptInviteHeader = 0xA2
 Local $SkillUseHeader = 0x4C
-Local $DestroyItemHeader = 0x6E
+Local $DestroyItemHeader = 0x6F
 #EndRegion Headers
 
 #Region Memory
@@ -413,7 +413,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	$lTemp = GetScannedAddress('ScanTraderHook', -7)
 	SetValue('TraderHookStart', '0x' & Hex($lTemp, 8))
 	SetValue('TraderHookReturn', '0x' & Hex($lTemp + 5, 8))
-	$lTemp = GetScannedAddress("ScanDialog",1)
+	$lTemp = GetScannedAddress("ScanDialog",15) ;1
 	SetValue('DialogStart', '0x' & Hex($lTemp, 8))
 	SetValue('DialogReturn', '0x' & Hex($lTemp + 8, 8))
 	$lTemp = GetScannedAddress('ScanStringFilter1', -0x23)
@@ -434,7 +434,7 @@ Func Initialize($aGW, $bChangeTitle = True, $aUseStringLog = True, $aUseEventSys
 	SetValue('DecreaseAttributeFunction', '0x' & Hex(GetScannedAddress('ScanIncreaseAttributeFunction', -96) - 192, 8))
 	SetValue('MoveFunction', '0x' & Hex(GetScannedAddress('ScanMoveFunction', 1), 8))
 	SetValue('UseSkillFunction', '0x' & Hex(GetScannedAddress('ScanUseSkillFunction', 1), 8))
-	SetValue('ChangeTargetFunction', '0x' & Hex(GetScannedAddress('ScanChangeTargetFunction', -119), 8))
+	SetValue('ChangeTargetFunction', '0x' & Hex(GetScannedAddress('ScanChangeTargetFunction', -119), 8)) ;-120
 	SetValue('WriteChatFunction', '0x' & Hex(GetScannedAddress('ScanWriteChatFunction', 1), 8))
 	SetValue('SellItemFunction', '0x' & Hex(GetScannedAddress('ScanSellItemFunction', -85), 8))
 	SetValue('PacketSendFunction', '0x' & Hex(GetScannedAddress('ScanPacketSendFunction', 1), 8))
@@ -632,7 +632,7 @@ Func Scan()
 	_('ScanZoomMoving:')
 	AddPattern('EB358B4304')
 	_('ScanDialog:')
-	AddPattern('558BEC8B4108A8017524')
+	AddPattern('8977045F5E5B5DC208');558BEC8B4108A8017524
 	_('ScanBuildNumber:')
 	AddPattern('8D8500FCFFFF8D')
 
@@ -1907,9 +1907,14 @@ Func ClearTarget()
 EndFunc   ;==>ClearTarget
 
 ;~ Description: Target the nearest enemy.
+;Func TargetNearestEnemy()
+;	Return PerformAction(0x93, 0x18)
+;EndFunc   ;==>TargetNearestEnemy
 Func TargetNearestEnemy()
-	Return PerformAction(0x93, 0x18)
-EndFunc   ;==>TargetNearestEnemy
+	Local $target = GetNearestEnemyToAgent(-2)
+        ChangeTarget($target)
+EndFunc
+
 
 ;~ Description: Target the next enemy.
 Func TargetNextEnemy()
@@ -2068,7 +2073,7 @@ Func SendChat($aMessage, $aChannel = '!')
 		$lMessage = $aMessage
 	EndIf
 
-	MemoryWrite($lAddress + 8, $aChannel & $lMessage, 'wchar[122]')
+	MemoryWrite($lAddress + 12, $aChannel & $lMessage, 'wchar[122]')
 	DllCall($mKernelHandle, 'int', 'WriteProcessMemory', 'int', $mGWProcHandle, 'int', $lAddress, 'ptr', $mSendChatPtr, 'int', 8, 'int', '')
 
 	If StringLen($aMessage) > 120 Then SendChat(StringTrimLeft($aMessage, 120), $aChannel)
@@ -2077,9 +2082,17 @@ EndFunc   ;==>SendChat
 
 #Region Misc
 ;~ Description: Change weapon sets.
+;Func ChangeWeaponSet($aSet)
+;	Return PerformAction(0x80 + $aSet, 0x18)
+;EndFunc   ;==>ChangeWeaponSet
 Func ChangeWeaponSet($aSet)
-	Return PerformAction(0x80 + $aSet, 0x18)
-EndFunc   ;==>ChangeWeaponSet
+	Switch $aSet
+		Case 1, 2, 3, 4
+			Return SendPacket(0x8, 0x38, $aSet-1)
+		Case Else
+			Return False
+	EndSwitch
+EndFunc
 
 ;~ Description: Use a skill.
 Func UseSkill($aSkillSlot, $aTarget, $aCallTarget = False)
@@ -4738,6 +4751,9 @@ Func CreateData()
 	_('EnsureEnglish/4')
 	_('TraderQuoteID/4')
 	_('TraderCostID/4')
+	_("LastDialogSender/4")
+	_("LastDialogButtonsSize/4")
+	_("LastDialogButtons/256")
 	_('LastDialogId/4')
 	_('TraderCostValue/4')
 	_('DisableRendering/4')
@@ -5021,6 +5037,7 @@ Func CreateDialogHook()
 	_('mov eax,dword[ebp+8]')
 	_('mov dword[LastDialogId],eax')
 	_('mov eax,dword[ecx+8]')
+	_("mov dword[LastDialogButtonsSize],0")
 	_('test al,1')
 	_('ljmp DialogReturn')
 EndFunc
