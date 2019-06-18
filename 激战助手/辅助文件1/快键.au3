@@ -698,8 +698,8 @@ Func actionghostpop()
 	If GetMapLoading() <> $INSTANCETYPE_EXPLORABLE Then Return
 	If Not UseItemByModelID($MODELID_GHOST_IN_THE_BOX) Then
 		WriteChat("[提示] 盒中魂已尽!", "激战助手")
-		return 0
 	endif
+	sleep(1000+getping())
 	actionghosttarget()
 EndFunc
 
