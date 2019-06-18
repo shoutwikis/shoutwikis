@@ -1185,7 +1185,7 @@ Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
 		ChangeTarget($aCaster)
 		UseSkillByIDOnTarget(2358)
 	endif
-	if ($Skill == 1454) and ($Target == 5177 or $Target == 5201) and GetDistance($Target) < 1000 then writechat("有魂拷问者 在施展 痛苦召唤")
+	if ($aSkill == 1454) and ($aTarget == 5177 or $aTarget == 5201) and GetDistance($aTarget) < 1000 then writechat("有魂拷问者 在施展 痛苦召唤")
 	if ($aSkill == 1753) and ($aTarget == GetMyID()) then writechat("==发现 撕裂扫荡：检查加持==")
 	if $aSkill == 1349 or $aSkill == 69 or $aSkill == 143 or $aSkill == 144 then ;反加持之镜, 加持粉碎, 剥夺加持, 冻伤
 		Local $lCasterStruct = GetAgentByID($aCaster)
