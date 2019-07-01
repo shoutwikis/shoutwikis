@@ -1181,19 +1181,35 @@ Func SkillActivate($aCaster, $aTarget, $aSkill, $aTime)
 		DuiYuan_ShiFa($aCaster, $aTarget, $aSkill, "零施展")
 	endif
 
-	if $aSkill == 1894 then ;阿尔古之触
-		ChangeTarget($aCaster)
-		UseSkillByIDOnTarget(2358)
-	endif
-	if ($aSkill == 1454) and ($aTarget == 5177 or $aTarget == 5201) and GetDistance($aTarget) < 1000 then writechat("有魂拷问者 在施展 痛苦召唤")
-	if ($aSkill == 1753) and ($aTarget == GetMyID()) then writechat("==发现 撕裂扫荡：检查加持==")
-	if $aSkill == 1349 or $aSkill == 69 or $aSkill == 143 or $aSkill == 144 then ;反加持之镜, 加持粉碎, 剥夺加持, 冻伤
-		Local $lCasterStruct = GetAgentByID($aCaster)
-		if (NOT GetHasHex($lCasterStruct)) and DllStructGetData($lCasterStruct, 'Allegiance') == 3 then ;and (NOT GetIsDead($lCasterStruct))
-			WriteChat("发现摘加持技能: "&$aSkill)
-			CallTarget($aCaster)
-		endif
-	endif
+
+	Local $casterPlayerNumber = DllStructGetData(GetAgentByID($aCaster), 'PlayerNumber')
+	Switch $aSkill
+		Case 1894;阿尔古之触
+			ChangeTarget($aCaster)
+			UseSkillByIDOnTarget(2358)
+		Case 1454
+			if ($casterPlayerNumber == 5177 or $casterPlayerNumber == 5201) and (Round(GetDistance($aCaster)) < 1000) then writechat("有魂拷问者 在施展 苦痛召集")
+		Case 1753
+			if ($aTarget == GetMyID()) then writechat("==发现 撕裂扫荡：检查加持==")
+		Case 937
+			if (Round(GetDistance($aCaster)) < 322) then writechat("==发现 冲击波：该在一秒内 逃出 其 邻近区域，附近区域，或范围==")
+		Case 1349, 69, 143, 144 ;反加持之镜, 加持粉碎, 剥夺加持, 冻伤
+			Local $lCasterPointer = GetAgentByID($aCaster)
+			if (NOT GetHasHex($lCasterPointer)) and DllStructGetData(GetAgentByID($aCaster), 'Allegiance') == 3 then ;and (NOT GetIsDead($lCasterPointer))
+				Switch $aSkill
+					Case 1349
+						WriteChat("发现摘加持技能: 反加持之镜")
+					Case 69
+						WriteChat("发现摘加持技能: 加持粉碎")
+					Case 143
+						WriteChat("发现摘加持技能: 剥夺加持")
+					Case 144
+						WriteChat("发现摘加持技能: 冻伤")
+				EndSwitch
+				CallTarget($aCaster)
+			endif
+		Case Else
+	Endswitch
 
 	#cs
 	if $aSkill == 390 or $aSkill == 325 or $aSkill == 329 or $aSkill == 61 or $aSkill == 25 or $aSkill == 57 or $aSkill == 5 or $aSkill == 23 then

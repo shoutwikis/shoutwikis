@@ -431,7 +431,8 @@ Func actionlockontarget()
 	Local $targetArray = [ _
 						 [5147, 5148, 0, 0], _ ;巨大阴影, 阴影
 						 [5145, 5146, 0, 0], _ ;狂怒者, 黑魔兽
-						 [5175, 5167, 0, 0], _ ;冥狱骸骨, 玛古奈安诺 土克
+						 [5175, 5169, 0, 0], _ ;冥狱骸骨, 玛古奈安诺 郎得
+						 [5167, 0, 0, 0], _ ;玛古奈安诺 土克
 						 [5176, 5200, 5178, 5202] _ ;精神拷问者，水拷问者
 						 ]
 
@@ -453,8 +454,8 @@ Func actionlockontarget()
 		Local $testDistance = Round(GetDistance($lMe, $lArr[$i]))
 		Local $continueLoop = false
 		Local $ImTargeted = false
-		if GetTarget(DllStructGetData($lArr[$i], "ID")) == $lMyID then $ImTargeted = true
-
+		if GetTarget(DllStructGetData($lArr[$i], "ID")) == $lMyID and GetIsAttacking($lArr[$i]) then $ImTargeted = true
+#cs
 		if GUICtrlRead($targetIDinput) <> -1 and $lPlayerNumber == GUICtrlRead($targetIDinput) then
 			ChangeTarget($lArr[$i])
 			If $testDistance < $distanceRecord[$recordSize-1] Then
@@ -464,20 +465,20 @@ Func actionlockontarget()
 			EndIf
 			continueloop
 		endif
-
+#ce
 		If BitAND(DllStructGetData($lArr[$i], 'Effects'), 0x0010) <= 0 and DllStructGetData($lArr[$i], 'HP') > 0 and GetIsLiving($lArr[$i]) then
 
 			switch $lPlayerNumber
 				;冥狱之幕， 夺心暗域
 				case 5176, 5200 ;精神-拷问者
 					if $ImTargeted and $testDistance <= $soulDistance then $mindCount += 1
-					$continueLoop = true
+					if NOT $ImTargeted then $continueLoop = true
 				case 5177, 5201 ;魂-拷问者
 					if $ImTargeted and $testDistance <= $soulDistance then $soulCount += 1
 					$continueLoop = true
 				case 5178, 5202 ;水-拷问者
 					if $ImTargeted and $testDistance <= $soulDistance then $waterCount += 1
-					$continueLoop = true
+					if NOT $ImTargeted then $continueLoop = true
 				case 5181, 5205 ;灵-拷问者 -2
 					if $ImTargeted and $testDistance <= $soulDistance then
 						$spiritCount += 1
