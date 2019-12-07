@@ -399,6 +399,9 @@ Func actionlockontarget()
 	Local $lMe = GetAgentByID(-2)
 	Local $lMyID = GetMyID()
 	Local $tFound = -1
+	Local $tFoundMini = -1
+	Local $tMiniDistance = 10000000
+
 	Local $lArr = GetAgentArray(0xDB) ;只瞄准生物
 	Local $lTmp
 
@@ -454,7 +457,7 @@ Func actionlockontarget()
 		Local $testDistance = Round(GetDistance($lMe, $lArr[$i]))
 		Local $continueLoop = false
 		Local $ImTargeted = false
-		if GetTarget(DllStructGetData($lArr[$i], "ID")) == $lMyID and GetIsAttacking($lArr[$i]) then $ImTargeted = true
+		if GetTarget(DllStructGetData($lArr[$i], "ID")) == $lMyID then $ImTargeted = true ;and GetIsAttacking($lArr[$i])
 #cs
 		if GUICtrlRead($targetIDinput) <> -1 and $lPlayerNumber == GUICtrlRead($targetIDinput) then
 			ChangeTarget($lArr[$i])
@@ -466,6 +469,14 @@ Func actionlockontarget()
 			continueloop
 		endif
 #ce
+		switch $lPlayerNumber
+			Case 347 to 350 ;230 to 350, 7980, 8289, 8294 to 8299, 8983, 8984
+				if $testDistance < $tMiniDistance then
+					$tFoundMini = $i
+					$tMiniDistance = $testDistance
+				endif
+		EndSwitch
+
 		If BitAND(DllStructGetData($lArr[$i], 'Effects'), 0x0010) <= 0 and DllStructGetData($lArr[$i], 'HP') > 0 and GetIsLiving($lArr[$i]) then
 
 			switch $lPlayerNumber
@@ -548,6 +559,10 @@ Func actionlockontarget()
 	If $tFound > 0 Then
 		ChangeTarget($lArr[$tFound])
 		;WriteChat("已瞄准目标", "激战助手")
+	endif
+
+	if $tFoundMini > 0 then
+		ChangeTarget($lArr[$tFoundMini])
 	endif
 
 	if $countDoa then WriteChat("{ "&$soulCount+$mindCount+$waterCount&" :: 总 } | "&$soulCount&"魂 | "&$mindCount&"精神 | "&$waterCount&"水 ::::: "&$spiritCount&"灵 | "&$sanityCount&"声", "激战助手")
